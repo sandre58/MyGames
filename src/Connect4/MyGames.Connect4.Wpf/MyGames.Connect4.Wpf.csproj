@@ -1,0 +1,75 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>net8.0-windows</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <Description>This software allows you to play to Connect4.</Description>
+    <AssemblyName>Connect4</AssemblyName>
+    <Product>Connect'4</Product>
+    <ExtrasEnableWpfProjectSetup>true</ExtrasEnableWpfProjectSetup>
+    <ApplicationIcon>Resources\Images\Connect4.ico</ApplicationIcon>
+    <OutputPath>..\..\..\build\$(AssemblyName)\$(Configuration)</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Fody" Version="6.8.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0-preview.3.24172.9" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0-preview.3.24172.9" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.0-preview.3.24172.9" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="9.0.0-preview.3.24172.9" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0-preview.3.24172.9" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0-preview.3.24172.9" />
+    <PackageReference Include="Microsoft.VisualStudio.SlowCheetah" Version="4.0.50">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="Settings\LanguageSettings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LanguageSettings.settings</DependentUpon>
+    </Compile>
+    <Compile Update="Settings\ThemeSettings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ThemeSettings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="config\appsettings.json">
+      <TransformOnBuild>true</TransformOnBuild>
+    </None>
+    <None Update="config\appsettings.Release.json">
+      <IsTransformFile>true</IsTransformFile>
+      <DependentUpon>appsettings.json</DependentUpon>
+    </None>
+    <None Update="config\NLog.config">
+      <TransformOnBuild>true</TransformOnBuild>
+    </None>
+    <None Update="config\NLog.Release.config">
+      <IsTransformFile>true</IsTransformFile>
+      <DependentUpon>NLog.config</DependentUpon>
+    </None>
+    <None Update="Settings\LanguageSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>LanguageSettings.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Settings\ThemeSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>ThemeSettings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+
+</Project>

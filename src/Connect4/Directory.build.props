@@ -1,0 +1,9 @@
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+  
+  <PropertyGroup>
+    <Product>Connect'4</Product>
+    <Description>Experience the classic game of Connect Four like never before with this WPF implementation! Customize your gaming experience by adjusting options such as the number of rows, columns, and game rules. Whether you prefer a traditional four-in-a-row challenge or a unique twist on the gameplay, this Connect Four game offers endless possibilities for fun and excitement.</Description>
+    <Version>1.0.0-alpha</Version>
+  </PropertyGroup>
+</Project>

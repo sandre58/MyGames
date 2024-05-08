@@ -1,0 +1,103 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{5D1BCDF4-BE5F-488D-BF24-64F497C5F1B7}"
+	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
+		Directory.build.props = Directory.build.props
+		MyGames.ruleset = MyGames.ruleset
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".doc", ".doc", "{EA1558C3-CFA0-44ED-954B-C773044EB6F9}"
+	ProjectSection(SolutionItems) = preProject
+		..\CHANGELOG.md = ..\CHANGELOG.md
+		..\images\chess.png = ..\images\chess.png
+		..\CODE_OF_CONDUCT.md = ..\CODE_OF_CONDUCT.md
+		..\images\connectFour.png = ..\images\connectFour.png
+		..\LICENSE = ..\LICENSE
+		..\images\logo.png = ..\images\logo.png
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{E1FDB1EB-FB63-409E-8962-2929AD1EE63C}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\ci.yml = ..\.github\workflows\ci.yml
+		..\.github\workflows\create_release.yml = ..\.github\workflows\create_release.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Chess", "Chess", "{2DC8D602-4EBA-460C-AAAA-D0BD8BFDF88E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connect4", "Connect4", "{A09EDC05-81AC-42D0-B3DF-7EB9AB51C2D7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Common", "_Common", "{26E28C00-5829-4A4A-98C9-6A2DC164207F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Chess", "Chess\MyGames.Chess\MyGames.Chess.csproj", "{268E2FAF-9708-4E36-B08F-49CF18CB5E27}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Common", "MyGames.Common\MyGames.Common.csproj", "{8201550C-D40E-4BEE-9A07-C40639DEEE90}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Connect4", "Connect4\MyGames.Connect4\MyGames.Connect4.csproj", "{5DF87A55-D890-40D2-A81D-DBB5A34D72EB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Connect4.UnitTests", "Connect4\MyGames.Connect4.UnitTests\MyGames.Connect4.UnitTests.csproj", "{0A0689DE-DF3B-4056-BAD8-876F7B6D5B85}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Connect4.Wpf", "Connect4\MyGames.Connect4.Wpf\MyGames.Connect4.Wpf.csproj", "{E78B086B-98CD-4CDD-819F-EFAACB92FF11}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{DFBD6060-FEE8-43B5-863B-7EEAA4797944}"
+	ProjectSection(SolutionItems) = preProject
+		Chess\Directory.build.props = Chess\Directory.build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{9CE961D6-3EE7-4E4F-BFB7-BFE39DE55658}"
+	ProjectSection(SolutionItems) = preProject
+		Connect4\Directory.build.props = Connect4\Directory.build.props
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{268E2FAF-9708-4E36-B08F-49CF18CB5E27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{268E2FAF-9708-4E36-B08F-49CF18CB5E27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{268E2FAF-9708-4E36-B08F-49CF18CB5E27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{268E2FAF-9708-4E36-B08F-49CF18CB5E27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8201550C-D40E-4BEE-9A07-C40639DEEE90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8201550C-D40E-4BEE-9A07-C40639DEEE90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8201550C-D40E-4BEE-9A07-C40639DEEE90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8201550C-D40E-4BEE-9A07-C40639DEEE90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DF87A55-D890-40D2-A81D-DBB5A34D72EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DF87A55-D890-40D2-A81D-DBB5A34D72EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DF87A55-D890-40D2-A81D-DBB5A34D72EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DF87A55-D890-40D2-A81D-DBB5A34D72EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A0689DE-DF3B-4056-BAD8-876F7B6D5B85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A0689DE-DF3B-4056-BAD8-876F7B6D5B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A0689DE-DF3B-4056-BAD8-876F7B6D5B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A0689DE-DF3B-4056-BAD8-876F7B6D5B85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E78B086B-98CD-4CDD-819F-EFAACB92FF11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E78B086B-98CD-4CDD-819F-EFAACB92FF11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E78B086B-98CD-4CDD-819F-EFAACB92FF11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E78B086B-98CD-4CDD-819F-EFAACB92FF11}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{268E2FAF-9708-4E36-B08F-49CF18CB5E27} = {2DC8D602-4EBA-460C-AAAA-D0BD8BFDF88E}
+		{8201550C-D40E-4BEE-9A07-C40639DEEE90} = {26E28C00-5829-4A4A-98C9-6A2DC164207F}
+		{5DF87A55-D890-40D2-A81D-DBB5A34D72EB} = {A09EDC05-81AC-42D0-B3DF-7EB9AB51C2D7}
+		{0A0689DE-DF3B-4056-BAD8-876F7B6D5B85} = {A09EDC05-81AC-42D0-B3DF-7EB9AB51C2D7}
+		{E78B086B-98CD-4CDD-819F-EFAACB92FF11} = {A09EDC05-81AC-42D0-B3DF-7EB9AB51C2D7}
+		{DFBD6060-FEE8-43B5-863B-7EEAA4797944} = {2DC8D602-4EBA-460C-AAAA-D0BD8BFDF88E}
+		{9CE961D6-3EE7-4E4F-BFB7-BFE39DE55658} = {A09EDC05-81AC-42D0-B3DF-7EB9AB51C2D7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		RESX_ConfirmAddLanguageFile = True
+		RESX_AutoCreateNewLanguageFiles = True
+		RESX_NeutralResourcesLanguage = fr-FR
+		SolutionGuid = {4C2A7472-FBCC-4D2C-B21D-0C83E4ADAA1A}
+		RESX_CodeReferences = {"Items":[{"Expression":"\\W($File.$Key)\\W","Extensions":".cs,.xaml,.cshtml","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"\\W($File.$Key)\\W","Extensions":".vbhtml","IsCaseSensitive":false,"SingleLineComment":null},{"Expression":"ResourceManager.GetString\\(\"($Key)\"\\)","Extensions":".cs","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"typeof\\((\\w+\\.)*($File)\\).+\"($Key)\"|\"($Key)\".+typeof\\((\\w+\\.)*($File)\\)","Extensions":".cs","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"\\W($Key)\\W","Extensions":".vb","IsCaseSensitive":false,"SingleLineComment":"'"},{"Expression":"\\W($File::$Key)\\W","Extensions":".cpp,.c,.hxx,.h","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"&lt;%\\$\\s+Resources:\\s*($File)\\s*,\\s*($Key)\\s*%&gt;","Extensions":".aspx,.ascx,.master","IsCaseSensitive":true,"SingleLineComment":null},{"Expression":"StringResourceKey\\.($Key)","Extensions":".cs","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"\\.($Key)","Extensions":".ts,.html","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"typeof\\((\\w+\\.)*($File)\\).+nameof\\(($Key)\\)|nameof\\(($Key)\\).+typeof\\((\\w+\\.)*($File)\\)","Extensions":".cs","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"{me:Resource (Key=)?($Key).*","Extensions":".xaml","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"{me:Translation .*Format=$Key.*","Extensions":".xaml","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"{my:Resource (Key=)?($Key).*","Extensions":".xaml","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"Format=($Key)","Extensions":".xaml","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"{my:ShortcutResource (Key=)?($Key).*","Extensions":".xaml","IsCaseSensitive":true,"SingleLineComment":"\/\/"}]}
+		RESX_ShowErrorsInErrorList = False
+	EndGlobalSection
+EndGlobal
