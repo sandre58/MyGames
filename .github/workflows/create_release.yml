@@ -62,7 +62,7 @@ jobs:
       - uses: bbonkr/get-version-action@v1
         id: get_version
         with:
-          project: src/${{ steps.get_application.outputs.application }}/MyGames.${{ steps.get_application.outputs.application }}.Wpf.csproj
+          project: src/${{ steps.get_application.outputs.application }}/MyGames.${{ steps.get_application.outputs.application }}.Wpf/MyGames.${{ steps.get_application.outputs.application }}.Wpf.csproj
           show_log_message: true
 
       # Return version
@@ -107,7 +107,7 @@ jobs:
       dotnet-test-logger: GitHubActions --no-build --no-restore
       build-args: ${{ needs.compute_parameters.outputs.build_args }}
       name: Build
-      solution-path: .\src\${{ needs.compute_parameters.outputs.application }}\MyGames.${{ needs.compute_parameters.outputs.application }}.Wpf.csproj
+      solution-path: .\src\${{ needs.compute_parameters.outputs.application }}\MyGames.${{ needs.compute_parameters.outputs.application }}.Wpf\MyGames.${{ needs.compute_parameters.outputs.application }}.Wpf.csproj
       artifact-name: ${{ needs.compute_parameters.outputs.application }}
       artifacts-path: |
               ./build/${{ needs.compute_parameters.outputs.application }}/Release/**
