@@ -62,7 +62,7 @@ jobs:
       - uses: bbonkr/get-version-action@v1
         id: get_version
         with:
-          project: .\src\${{ steps.get_application.outputs.application }}\Directory.build.props
+          project: src/${{ steps.get_application.outputs.application }}/Directory.build.props
           show_log_message: true
 
       # Return version
