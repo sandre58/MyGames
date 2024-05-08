@@ -62,7 +62,7 @@ jobs:
       - uses: bbonkr/get-version-action@v1
         id: get_version
         with:
-          project: src/${{ steps.get_application.outputs.application }}/MyGames.steps.get_application.outputs.application.Wpf.csproj
+          project: src/${{ steps.get_application.outputs.application }}/MyGames.${{ steps.get_application.outputs.application }}.Wpf.csproj
           show_log_message: true
 
       # Return version
