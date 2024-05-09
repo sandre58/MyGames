@@ -160,7 +160,7 @@ jobs:
           
       # Zip application files
       - name: Zip artifact for deployment
-        run: zip ${{ needs.compute_parameters.outputs.application }}_{{needs.compute_parameters.outputs.full_version}}.zip ${{ needs.compute_parameters.outputs.application }}/** -r
+        run: zip ${{ needs.compute_parameters.outputs.application }}_${{needs.compute_parameters.outputs.full_version}}.zip ${{ needs.compute_parameters.outputs.application }}/** -r
 
       # Get release labels
       - name: Define release parameters
