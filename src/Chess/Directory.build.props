@@ -4,6 +4,5 @@
   <PropertyGroup>
     <Product>Chess</Product>
     <Description>Immerse yourself in the timeless strategy game of chess with this customizable WPF implementation! Explore various gameplay options such as adjusting the board size, setting different rule variations, and customizing piece designs. Whether you're a seasoned chess master or just starting your journey, this chess game offers a dynamic and engaging experience tailored to your preferences.</Description>
-    <Version>1.0.0-alpha</Version>
   </PropertyGroup>
 </Project>
