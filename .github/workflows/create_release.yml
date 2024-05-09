@@ -173,11 +173,11 @@ jobs:
           } else {
             echo "is_preview=true" >> $Env:GITHUB_OUTPUT
             if ('${{ needs.compute_parameters.outputs.pre_release }}'.StartsWith('pre')) {
-                echo "release_display_name='${{ needs.compute_parameters.outputs.version }} - Preview'" >> $Env:GITHUB_OUTPUT
+                echo "release_display_name=${{ needs.compute_parameters.outputs.version }} - Preview" >> $Env:GITHUB_OUTPUT
             } elseif ('${{ needs.compute_parameters.outputs.pre_release }}'.StartsWith('alpha')) {
-                echo "release_display_name='${{ needs.compute_parameters.outputs.version }} - Alpha'" >> $Env:GITHUB_OUTPUT
+                echo "release_display_name=${{ needs.compute_parameters.outputs.version }} - Alpha" >> $Env:GITHUB_OUTPUT
             } elseif ('${{ needs.compute_parameters.outputs.pre_release }}'.StartsWith('beta')) {
-                echo "release_display_name='${{ needs.compute_parameters.outputs.version }} - Beta'" >> $Env:GITHUB_OUTPUT
+                echo "release_display_name=${{ needs.compute_parameters.outputs.version }} - Beta" >> $Env:GITHUB_OUTPUT
             }
           }
 
@@ -185,7 +185,7 @@ jobs:
       - uses: ncipollo/release-action@main # https://github.com/marketplace/actions/create-release
         name: Create Release
         with:
-          artifacts: ${{ needs.compute_parameters.outputs.application }}_{{needs.compute_parameters.outputs.full_version}}.zip
+          artifacts: ${{ needs.compute_parameters.outputs.application }}_${{needs.compute_parameters.outputs.full_version}}.zip
           artifactErrorsFailBuild: true
           draft: true
           generateReleaseNotes: false
