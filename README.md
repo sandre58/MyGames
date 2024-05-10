@@ -68,7 +68,7 @@ To play the games in this repository, simply download release or clone the repos
 
 Copyright © Stéphane ANDRE.
 
-My Icon Creator is provided as-is under the MIT license. For more information see [LICENSE](./LICENSE).
+My Games is provided as-is under the MIT license. For more information see [LICENSE](./LICENSE).
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
