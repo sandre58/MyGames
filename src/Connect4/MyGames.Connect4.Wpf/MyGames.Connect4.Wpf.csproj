@@ -5,9 +5,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>net8.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
-    <Description>This software allows you to play to Connect4.</Description>
     <AssemblyName>Connect4</AssemblyName>
-    <Product>Connect'4</Product>
     <ExtrasEnableWpfProjectSetup>true</ExtrasEnableWpfProjectSetup>
     <ApplicationIcon>Resources\Images\Connect4.ico</ApplicationIcon>
     <OutputPath>..\..\..\build\$(AssemblyName)\$(Configuration)</OutputPath>
