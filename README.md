@@ -17,12 +17,10 @@
 
   <p align="center">
     <br />
-    Welcome to My Games repository! This repository contains a collection of classic board games implemented using WPF (Windows Presentation Foundation). Whether you're a fan of chess, Connect Four, or other classic games, this repository offers a variety of entertaining options to enjoy on your Windows desktop.
+    Welcome to My Games repository! This repository contains a collection of classic board games implemented using WPF (Windows Presentation Foundation). Whether you're a fan of chess, Connect 4, or other classic games, this repository offers a variety of entertaining options to enjoy on your Windows desktop.
   </p>
 
 [![Language][language-shield]][language-url]
-[![Framework][framework-shield]][framework-url]
-[![Version][version-shield]][version-url]
 [![Build][build-shield]][build-url]
 
 </div>
@@ -38,10 +36,29 @@
 
 ### Chess
 
+<div align="center">
+<img src="images/chess.png" width="100" height="100">
+<br />
 
-### Connect Four
+[![Framework][framework-shield]][framework-url]
+[![Version][chess-version-shield]][chess-version-url]
 
-Experience the classic game of Connect Four like never before with this WPF implementation! Customize your gaming experience by adjusting options such as the number of rows, columns, and game rules. Whether you prefer a traditional four-in-a-row challenge or a unique twist on the gameplay, this Connect Four game offers endless possibilities for fun and excitement.
+</div>
+
+Immerse yourself in the timeless strategy game of chess with this customizable WPF implementation! Explore various gameplay options such as adjusting the board size, setting different rule variations, and customizing piece designs. Whether you're a seasoned chess master or just starting your journey, this chess game offers a dynamic and engaging experience tailored to your preferences.
+
+### Connect 4
+
+<div align="center">
+<img src="images/connect4.png" width="100" height="100">
+<br />
+
+[![Framework][framework-shield]][framework-url]
+[![Version][connect4-version-shield]][connect4-version-url]
+
+</div>
+
+Experience the classic game of Connect 4 like never before with this WPF implementation! Customize your gaming experience by adjusting options such as the number of rows, columns, and game rules. Whether you prefer a traditional four-in-a-row challenge or a unique twist on the gameplay, this Connect Four game offers endless possibilities for fun and excitement.
 
 ## Installation
 
@@ -71,5 +88,7 @@ My Icon Creator is provided as-is under the MIT license. For more information se
 [downloads-url]: https://github.com/sandre58/MyGames/releases
 [framework-shield]: https://img.shields.io/badge/.NET-8.0-purple
 [framework-url]: https://github.com/sandre58/MyGames/tree/main/src/MyNet.IconCreator.Wpf
-[version-shield]: https://img.shields.io/nuget/v/MyNet.IconCreator.Wpf
-[version-url]: https://www.nuget.org/packages/MyNet.IconCreator.Wpf
+[connect4-version-shield]: https://img.shields.io/badge/version-1.1.0-blue
+[connect4-version-url]: https://github.com/sandre58/MyGames/releases
+[chess-version-shield]: https://img.shields.io/badge/version-1.1.0-blue
+[chess-version-url]: https://github.com/sandre58/MyGames/releases
