@@ -6,8 +6,12 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{5D1BCDF4-BE5F-488D-BF24-64F497C5F1B7}"
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
+		CodeCoverage.runsettings = CodeCoverage.runsettings
 		Directory.build.props = Directory.build.props
+		Directory.build.targets = Directory.build.targets
 		MyGames.ruleset = MyGames.ruleset
+		nuget.config = nuget.config
+		Settings.XamlStyler = Settings.XamlStyler
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".doc", ".doc", "{EA1558C3-CFA0-44ED-954B-C773044EB6F9}"
@@ -32,15 +36,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Chess", "Chess", "{2DC8D602
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connect4", "Connect4", "{A09EDC05-81AC-42D0-B3DF-7EB9AB51C2D7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Common", "_Common", "{26E28C00-5829-4A4A-98C9-6A2DC164207F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Common", "01 - Common", "{26E28C00-5829-4A4A-98C9-6A2DC164207F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Chess", "Chess\MyGames.Chess\MyGames.Chess.csproj", "{268E2FAF-9708-4E36-B08F-49CF18CB5E27}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Common", "MyGames.Common\MyGames.Common.csproj", "{8201550C-D40E-4BEE-9A07-C40639DEEE90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Domain", "Common\MyGames.Domain\MyGames.Domain.csproj", "{8201550C-D40E-4BEE-9A07-C40639DEEE90}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Connect4", "Connect4\MyGames.Connect4\MyGames.Connect4.csproj", "{5DF87A55-D890-40D2-A81D-DBB5A34D72EB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Connect4.UnitTests", "Connect4\MyGames.Connect4.UnitTests\MyGames.Connect4.UnitTests.csproj", "{0A0689DE-DF3B-4056-BAD8-876F7B6D5B85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Connect4.UnitTests", "Tests\MyGames.Connect4.UnitTests\MyGames.Connect4.UnitTests.csproj", "{0A0689DE-DF3B-4056-BAD8-876F7B6D5B85}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Connect4.Wpf", "Connect4\MyGames.Connect4.Wpf\MyGames.Connect4.Wpf.csproj", "{E78B086B-98CD-4CDD-819F-EFAACB92FF11}"
 EndProject
@@ -53,6 +57,35 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{9CE9
 	ProjectSection(SolutionItems) = preProject
 		Connect4\Directory.build.props = Connect4\Directory.build.props
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Connect4.Console", "Connect4\MyGames.Connect4.Console\MyGames.Connect4.Console.csproj", "{34102D87-C732-4E94-874A-5242F08A19CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0A62F3AF-37E4-4973-8E01-0F20465A592D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DCEACF77-6FD0-449E-A1D3-BFC3F5AA8980}"
+	ProjectSection(SolutionItems) = preProject
+		Tests\Directory.build.props = Tests\Directory.build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{45F28C86-AD14-4EEF-A032-080BA8E4D165}"
+	ProjectSection(SolutionItems) = preProject
+		Tests\Directory.build.props = Tests\Directory.build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8E3E9409-574B-48B7-A10B-02F1338EE20C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{8AB73EB3-1E1B-4FA1-81A9-F296F4EC0FAC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{62D105C3-B1E9-4892-8A50-129F03FBD680}"
+	ProjectSection(SolutionItems) = preProject
+		Tests\Directory.build.props = Tests\Directory.build.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Domain.UnitTests", "Tests\MyGames.Domain.UnitTests\MyGames.Domain.UnitTests.csproj", "{A236AB8E-9B7F-4A89-B82A-DA3277FFD7E4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Chess.Console", "Chess\MyGames.Chess.Console\MyGames.Chess.Console.csproj", "{65406E0F-1B21-4F2A-9E73-239BA32A6334}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Chess.UnitTests", "Tests\MyGames.Chess.UnitTests\MyGames.Chess.UnitTests.csproj", "{03AACCCE-DEA0-4774-ABF2-083BFBCD5107}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,6 +113,22 @@ Global
 		{E78B086B-98CD-4CDD-819F-EFAACB92FF11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E78B086B-98CD-4CDD-819F-EFAACB92FF11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E78B086B-98CD-4CDD-819F-EFAACB92FF11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34102D87-C732-4E94-874A-5242F08A19CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34102D87-C732-4E94-874A-5242F08A19CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34102D87-C732-4E94-874A-5242F08A19CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34102D87-C732-4E94-874A-5242F08A19CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A236AB8E-9B7F-4A89-B82A-DA3277FFD7E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A236AB8E-9B7F-4A89-B82A-DA3277FFD7E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A236AB8E-9B7F-4A89-B82A-DA3277FFD7E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A236AB8E-9B7F-4A89-B82A-DA3277FFD7E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65406E0F-1B21-4F2A-9E73-239BA32A6334}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65406E0F-1B21-4F2A-9E73-239BA32A6334}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65406E0F-1B21-4F2A-9E73-239BA32A6334}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65406E0F-1B21-4F2A-9E73-239BA32A6334}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03AACCCE-DEA0-4774-ABF2-083BFBCD5107}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03AACCCE-DEA0-4774-ABF2-083BFBCD5107}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03AACCCE-DEA0-4774-ABF2-083BFBCD5107}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03AACCCE-DEA0-4774-ABF2-083BFBCD5107}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,10 +137,20 @@ Global
 		{268E2FAF-9708-4E36-B08F-49CF18CB5E27} = {2DC8D602-4EBA-460C-AAAA-D0BD8BFDF88E}
 		{8201550C-D40E-4BEE-9A07-C40639DEEE90} = {26E28C00-5829-4A4A-98C9-6A2DC164207F}
 		{5DF87A55-D890-40D2-A81D-DBB5A34D72EB} = {A09EDC05-81AC-42D0-B3DF-7EB9AB51C2D7}
-		{0A0689DE-DF3B-4056-BAD8-876F7B6D5B85} = {A09EDC05-81AC-42D0-B3DF-7EB9AB51C2D7}
+		{0A0689DE-DF3B-4056-BAD8-876F7B6D5B85} = {DCEACF77-6FD0-449E-A1D3-BFC3F5AA8980}
 		{E78B086B-98CD-4CDD-819F-EFAACB92FF11} = {A09EDC05-81AC-42D0-B3DF-7EB9AB51C2D7}
 		{DFBD6060-FEE8-43B5-863B-7EEAA4797944} = {2DC8D602-4EBA-460C-AAAA-D0BD8BFDF88E}
 		{9CE961D6-3EE7-4E4F-BFB7-BFE39DE55658} = {A09EDC05-81AC-42D0-B3DF-7EB9AB51C2D7}
+		{34102D87-C732-4E94-874A-5242F08A19CF} = {A09EDC05-81AC-42D0-B3DF-7EB9AB51C2D7}
+		{0A62F3AF-37E4-4973-8E01-0F20465A592D} = {26E28C00-5829-4A4A-98C9-6A2DC164207F}
+		{DCEACF77-6FD0-449E-A1D3-BFC3F5AA8980} = {A09EDC05-81AC-42D0-B3DF-7EB9AB51C2D7}
+		{45F28C86-AD14-4EEF-A032-080BA8E4D165} = {DCEACF77-6FD0-449E-A1D3-BFC3F5AA8980}
+		{8E3E9409-574B-48B7-A10B-02F1338EE20C} = {2DC8D602-4EBA-460C-AAAA-D0BD8BFDF88E}
+		{8AB73EB3-1E1B-4FA1-81A9-F296F4EC0FAC} = {8E3E9409-574B-48B7-A10B-02F1338EE20C}
+		{62D105C3-B1E9-4892-8A50-129F03FBD680} = {0A62F3AF-37E4-4973-8E01-0F20465A592D}
+		{A236AB8E-9B7F-4A89-B82A-DA3277FFD7E4} = {0A62F3AF-37E4-4973-8E01-0F20465A592D}
+		{65406E0F-1B21-4F2A-9E73-239BA32A6334} = {2DC8D602-4EBA-460C-AAAA-D0BD8BFDF88E}
+		{03AACCCE-DEA0-4774-ABF2-083BFBCD5107} = {8E3E9409-574B-48B7-A10B-02F1338EE20C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		RESX_ShowErrorsInErrorList = False

@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <Description>Dive into the classic game of chess with our console application!
+    Play against a friend or challenge an AI opponent in this timeless strategy game.
+    Enjoy a straightforward and engaging gameplay experience right from your console.
+    Customize the game settings, including piece colors and AI difficulty level, to tailor the game to your preferences.
+    Whether you're a chess veteran or a newcomer, our console application offers hours of fun and strategic challenges.
+    Get ready to checkmate and claim victory!</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console" Version="0.49.2-preview.0.51" />
+    <PackageReference Include="Spectre.Console.Cli" Version="0.49.2-preview.0.51" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MyGames.Chess\MyGames.Chess.csproj" />
+  </ItemGroup>
+
+</Project>
