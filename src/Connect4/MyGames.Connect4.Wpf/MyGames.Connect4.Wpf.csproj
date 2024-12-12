@@ -8,7 +8,7 @@
     Whether you're a seasoned player or new to Connect Four, our app offers endless entertainment and strategic challenges.
     Get ready to connect four and win!</Description>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net8.0-windows</TargetFrameworks>
+    <TargetFrameworks>net9.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <AssemblyName>Connect4</AssemblyName>
     <ExtrasEnableWpfProjectSetup>true</ExtrasEnableWpfProjectSetup>

@@ -12,7 +12,7 @@ namespace MyGames.Chess.Console.Players
 
         public override IChessMove NextMove(ChessGame game)
         {
-            var move = new ChessAlphaBetaStrategy(Level).ProvideMove(game, this);
+            var move = new ChessAlphaBetaStrategy(new NaiveBoardEvaluator(), Level).ProvideMove(game, this);
 
             return move ?? throw new InvalidOperationException("No move allowed");
         }

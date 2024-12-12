@@ -5,7 +5,6 @@ using MyGames.Chess.Factories;
 using System.Collections.Generic;
 using System;
 using MyGames.Chess.UnitTests.Mocks;
-using MyGames.Chess.Exceptions;
 using MyGames.Domain;
 using Xunit;
 

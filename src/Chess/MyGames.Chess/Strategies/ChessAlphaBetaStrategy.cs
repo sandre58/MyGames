@@ -4,108 +4,23 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MyGames.Chess.Extensions;
 using MyGames.Domain;
 using MyGames.Domain.Strategies;
 using MyNet.Utilities;
 
 namespace MyGames.Chess.Strategies
 {
-    public class ChessAlphaBetaStrategy(Level level = Level.Medium) : IStrategy<ChessGame, ChessBoard, IChessMove, ChessPlayedMove>
+    public class ChessAlphaBetaStrategy(IBoardEvaluator boardEvaluator, Level level = Level.Medium) : IStrategy<ChessGame, ChessBoard, IChessMove, ChessPlayedMove>
     {
         private readonly Level _level = level;
 
+        private readonly IBoardEvaluator _boardEvaluator = boardEvaluator;
+
         public IChessMove ProvideMove(ChessGame game, IPlayer player)
         {
-            var move = AlphaBetaHelper.ComputeBestMove<ChessGame, ChessBoard, IChessMove, ChessPlayedMove>(game, (int)_level, x => GetValidMoves(x, x.GetCurrentPlayer()), x => EvaluatePosition(x, player.CastIn<IChessPlayer>()));
+            var move = AlphaBetaHelper.ComputeBestMove<ChessGame, ChessBoard, IChessMove, ChessPlayedMove>(game, (int)_level, x => GetValidMoves(x, x.GetCurrentPlayer()), x => _boardEvaluator.Evaluate(x.Board, x.GetColor(player.CastIn<IChessPlayer>())));
 
             return move ?? throw new InvalidOperationException("No move allowed");
-        }
-
-        /// <summary>
-        /// Evaluation of the current position of the board.
-        /// For example, an advantageous position may have a positive score, while a disadvantageous position may have a negative score.
-        /// </summary>
-        /// <param name="game">Game to evaluate</param>
-        /// <param name="player">Player position to evaluate</param>
-        /// <returns>Returns a score representing the player's advantage</returns>
-        private static int EvaluatePosition(ChessGame game, IChessPlayer player)
-        {
-            var score = 0;
-
-            // Piece values
-            var pieceValues = new Dictionary<Type, int>
-            {
-                { typeof(Pawn), 100 },
-                { typeof(Knight), 320 },
-                { typeof(Bishop), 330 },
-                { typeof(Rook), 500 },
-                { typeof(Queen), 900 },
-                { typeof(King), 20000 }
-            };
-
-            // Evaluate pieces on the board
-            foreach (var piece in game.GetPieces(player))
-                score += pieceValues[piece.GetType()];
-
-            foreach (var piece in game.GetPieces(player))
-                score -= pieceValues[piece.GetType()];
-
-            // Additional factors
-            score += EvaluatePieceActivity(game, player);
-            score -= EvaluatePieceActivity(game, game.GetOpponent(player));
-            score += EvaluateKingSafety(game, player);
-            score -= EvaluateKingSafety(game, game.GetOpponent(player));
-            score += EvaluateControlOfCenter(game, player);
-            score -= EvaluateControlOfCenter(game, game.GetOpponent(player));
-
-            return score;
-        }
-
-        private static int EvaluateKingSafety(ChessGame game, IChessPlayer player)
-        {
-            var safetyScore = 0;
-            var king = game.GetPieces(player).King;
-            var kingPosition = game.Board.GetCoordinates(king);
-            var surroundingSquares = new List<BoardCoordinates>
-                {
-                    kingPosition + BoardDirection.Up,
-                    kingPosition + BoardDirection.Down,
-                    kingPosition + BoardDirection.Left,
-                    kingPosition + BoardDirection.Right,
-                    kingPosition + BoardDirection.Up + BoardDirection.Left,
-                    kingPosition + BoardDirection.Up + BoardDirection.Right,
-                    kingPosition + BoardDirection.Down + BoardDirection.Left,
-                    kingPosition + BoardDirection.Down + BoardDirection.Right
-                };
-
-            foreach (var coordinates in surroundingSquares)
-            {
-                if (game.Board.TryGetSquare(coordinates) is Square<ChessPiece> square && game.Board.IsAttackedBy(square, game.GetOpponentColor(player)))
-                    safetyScore -= 10;
-            }
-            return safetyScore;
-        }
-
-        private static int EvaluateControlOfCenter(ChessGame game, IChessPlayer player)
-        {
-            var centerSquares = new List<BoardCoordinates>
-            {
-                new(3, 3),
-                new(3, 4),
-                new(4, 3),
-                new(4, 4)
-            };
-
-            return centerSquares.Count(x => game.Board.IsAttackedBy(game.Board.GetSquare(x), game.GetColor(player))) * 5;
-        }
-
-        private static int EvaluatePieceActivity(ChessGame game, IChessPlayer player)
-        {
-            var activityScore = 0;
-            foreach (var piece in game.GetPieces(player))
-                activityScore += piece.GetPossibleMoves(game.Board).Count();
-            return activityScore;
         }
 
         private static List<IChessMove> GetValidMoves(ChessGame game, IChessPlayer player)

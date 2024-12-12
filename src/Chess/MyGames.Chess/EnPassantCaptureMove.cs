@@ -3,7 +3,6 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using MyGames.Chess.Exceptions;
 using MyGames.Chess.Extensions;
 using MyGames.Domain;
@@ -33,8 +32,7 @@ namespace MyGames.Chess
                 return false;
 
             // Validate that the last move was a double pawn move
-            var lastMove = game.History.LastOrDefault();
-            if (lastMove is null || lastMove.Move.Piece is not Pawn || Math.Abs(lastMove.Move.Start.GetDirection(lastMove.Move.Destination).Row) != 2)
+            if (game.History.Count > 0 || game.History[^1] is not HistoryMove<IChessPlayer, ChessBoard, IChessMove, ChessPlayedMove> lastMove || lastMove.Move.Piece is not Pawn || Math.Abs(lastMove.Move.Start.GetDirection(lastMove.Move.Destination).Row) != 2)
                 return false;
 
             // Ensure the move does not put the player in check

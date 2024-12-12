@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Stéphane ANDRE. All Right Reserved.
 // See the LICENSE file in the project root for more information.
 
-using System.Collections.Generic;
 using MyGames.Connect4.Extensions;
 using MyGames.Connect4.UnitTests.Mocks;
 using MyGames.Domain;

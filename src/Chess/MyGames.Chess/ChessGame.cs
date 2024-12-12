@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MyGames.Chess.Exceptions;
 using MyGames.Domain;
+using MyNet.Utilities;
 
 namespace MyGames.Chess
 {
@@ -157,9 +158,9 @@ namespace MyGames.Chess
 
         #endregion
 
-        protected override BoardGame<ChessBoard, IChessPlayer, ChessPiece, IChessMove, ChessPlayedMove> NewInstance()
+        protected override BoardGame<ChessBoard, IChessPlayer, ChessPiece, IChessMove, ChessPlayedMove> NewInstance(ChessBoard board)
         {
-            var instance = new ChessGame(WhitePlayer, BlackPlayer);
+            var instance = new ChessGame(board.Clone().CastIn<ChessBoard>(), WhitePlayer, BlackPlayer);
 
             instance._isCheck[ChessColor.White] = _isCheck[ChessColor.White];
             instance._isCheck[ChessColor.Black] = _isCheck[ChessColor.Black];

@@ -164,15 +164,14 @@ namespace MyGames.Domain
 
         #region Clone
 
-        protected abstract BoardGame<TBoard, TPlayer, TPiece, TMove, TPlayedMove> NewInstance();
+        protected abstract BoardGame<TBoard, TPlayer, TPiece, TMove, TPlayedMove> NewInstance(TBoard board);
 
         IGame<TBoard, TMove, TPlayedMove> ICloneable<IGame<TBoard, TMove, TPlayedMove>>.Clone() => Clone();
 
         public BoardGame<TBoard, TPlayer, TPiece, TMove, TPlayedMove> Clone()
         {
-            var clone = NewInstance();
+            var clone = NewInstance(Board);
 
-            clone.Board.SetFrom(Board);
             clone.Winner = Winner;
             clone.IsOver = IsOver;
 

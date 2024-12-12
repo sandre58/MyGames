@@ -2,6 +2,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
+using MyNet.Utilities;
 
 namespace MyGames.Domain.UnitTests.Mocks
 {
@@ -15,7 +16,7 @@ namespace MyGames.Domain.UnitTests.Mocks
 
         protected override bool IsDraw() => false;
 
-        protected override BoardGame<MockBoard, MockPlayer, MockPiece, MockMove, MockMove> NewInstance() => new MockBoardGame(Board, Players);
+        protected override BoardGame<MockBoard, MockPlayer, MockPiece, MockMove, MockMove> NewInstance(MockBoard board) => new MockBoardGame(board.Clone().CastIn<MockBoard>(), Players);
 
         protected override MockMove NextMoveOfCurrentPlayer() => new(GetCurrentPlayer());
     }

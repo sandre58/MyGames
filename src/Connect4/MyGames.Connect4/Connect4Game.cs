@@ -15,7 +15,10 @@ namespace MyGames.Connect4
         public const int DefaultNumberOfPiecesForWin = 4;
 
         public Connect4Game(IEnumerable<IConnect4Player> players, int numberOfRows = Connect4Board.DefaultRows, int numberOfColumns = Connect4Board.DefaultColumns, int numberOfPiecesForWin = DefaultNumberOfPiecesForWin)
-            : base(new Connect4Board(numberOfRows, numberOfColumns), players) => NumberOfPiecesForWin = numberOfPiecesForWin;
+            : this(new Connect4Board(numberOfRows, numberOfColumns), players, numberOfPiecesForWin) { }
+
+        public Connect4Game(Connect4Board board, IEnumerable<IConnect4Player> players, int numberOfPiecesForWin = DefaultNumberOfPiecesForWin)
+            : base(board, players) => NumberOfPiecesForWin = numberOfPiecesForWin;
 
         public int NumberOfPiecesForWin { get; }
 
@@ -106,7 +109,7 @@ namespace MyGames.Connect4
             }
         }
 
-        protected override BoardGame<Connect4Board, IConnect4Player, Connect4Piece, Connect4Move, Connect4Move> NewInstance()
-            => new Connect4Game(Players.OfType<IConnect4Player>(), Board.Rows.Count, Board.Columns.Count, NumberOfPiecesForWin);
+        protected override BoardGame<Connect4Board, IConnect4Player, Connect4Piece, Connect4Move, Connect4Move> NewInstance(Connect4Board board)
+            => new Connect4Game(board.Clone().CastIn<Connect4Board>(), Players.OfType<IConnect4Player>(), NumberOfPiecesForWin);
     }
 }
