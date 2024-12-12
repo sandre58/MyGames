@@ -87,6 +87,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Chess.Console", "Ch
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Chess.UnitTests", "Tests\MyGames.Chess.UnitTests\MyGames.Chess.UnitTests.csproj", "{03AACCCE-DEA0-4774-ABF2-083BFBCD5107}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyGames.Chess.Avalonia", "Chess\MyGames.Chess.Avalonia\MyGames.Chess.Avalonia\MyGames.Chess.Avalonia.csproj", "{38CA67EE-2D91-4E6F-80E2-E545C2F7CB40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyGames.Chess.Avalonia.Android", "Chess\MyGames.Chess.Avalonia\MyGames.Chess.Avalonia.Android\MyGames.Chess.Avalonia.Android.csproj", "{B68431C9-B154-45FB-9D4A-1889F6DCB804}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyGames.Chess.Avalonia.Desktop", "Chess\MyGames.Chess.Avalonia\MyGames.Chess.Avalonia.Desktop\MyGames.Chess.Avalonia.Desktop.csproj", "{BBBBA83C-4F19-4871-BB19-4D383F057F7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyGames.Chess.Avalonia.iOS", "Chess\MyGames.Chess.Avalonia\MyGames.Chess.Avalonia.iOS\MyGames.Chess.Avalonia.iOS.csproj", "{0175041F-78EF-4807-8F98-B2E442F4614C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyGames.Chess.Avalonia.Browser", "Chess\MyGames.Chess.Avalonia\MyGames.Chess.Avalonia.Browser\MyGames.Chess.Avalonia.Browser.csproj", "{8309872D-6149-4425-A1C6-C4A79E29B58C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Avalonia", "Avalonia", "{E1B88AD6-C948-439D-8C48-02B86B1FF007}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{E36BA410-8C3E-44E0-8E47-058C2AE6B98B}"
+	ProjectSection(SolutionItems) = preProject
+		Chess\MyGames.Chess.Avalonia\Directory.Packages.props = Chess\MyGames.Chess.Avalonia\Directory.Packages.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +146,26 @@ Global
 		{03AACCCE-DEA0-4774-ABF2-083BFBCD5107}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03AACCCE-DEA0-4774-ABF2-083BFBCD5107}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03AACCCE-DEA0-4774-ABF2-083BFBCD5107}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38CA67EE-2D91-4E6F-80E2-E545C2F7CB40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38CA67EE-2D91-4E6F-80E2-E545C2F7CB40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38CA67EE-2D91-4E6F-80E2-E545C2F7CB40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38CA67EE-2D91-4E6F-80E2-E545C2F7CB40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B68431C9-B154-45FB-9D4A-1889F6DCB804}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B68431C9-B154-45FB-9D4A-1889F6DCB804}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B68431C9-B154-45FB-9D4A-1889F6DCB804}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B68431C9-B154-45FB-9D4A-1889F6DCB804}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBBBA83C-4F19-4871-BB19-4D383F057F7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBBBA83C-4F19-4871-BB19-4D383F057F7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBBBA83C-4F19-4871-BB19-4D383F057F7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBBBA83C-4F19-4871-BB19-4D383F057F7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0175041F-78EF-4807-8F98-B2E442F4614C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0175041F-78EF-4807-8F98-B2E442F4614C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0175041F-78EF-4807-8F98-B2E442F4614C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0175041F-78EF-4807-8F98-B2E442F4614C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8309872D-6149-4425-A1C6-C4A79E29B58C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8309872D-6149-4425-A1C6-C4A79E29B58C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8309872D-6149-4425-A1C6-C4A79E29B58C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8309872D-6149-4425-A1C6-C4A79E29B58C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,6 +188,13 @@ Global
 		{A236AB8E-9B7F-4A89-B82A-DA3277FFD7E4} = {0A62F3AF-37E4-4973-8E01-0F20465A592D}
 		{65406E0F-1B21-4F2A-9E73-239BA32A6334} = {2DC8D602-4EBA-460C-AAAA-D0BD8BFDF88E}
 		{03AACCCE-DEA0-4774-ABF2-083BFBCD5107} = {8E3E9409-574B-48B7-A10B-02F1338EE20C}
+		{38CA67EE-2D91-4E6F-80E2-E545C2F7CB40} = {E1B88AD6-C948-439D-8C48-02B86B1FF007}
+		{B68431C9-B154-45FB-9D4A-1889F6DCB804} = {E1B88AD6-C948-439D-8C48-02B86B1FF007}
+		{BBBBA83C-4F19-4871-BB19-4D383F057F7B} = {E1B88AD6-C948-439D-8C48-02B86B1FF007}
+		{0175041F-78EF-4807-8F98-B2E442F4614C} = {E1B88AD6-C948-439D-8C48-02B86B1FF007}
+		{8309872D-6149-4425-A1C6-C4A79E29B58C} = {E1B88AD6-C948-439D-8C48-02B86B1FF007}
+		{E1B88AD6-C948-439D-8C48-02B86B1FF007} = {2DC8D602-4EBA-460C-AAAA-D0BD8BFDF88E}
+		{E36BA410-8C3E-44E0-8E47-058C2AE6B98B} = {E1B88AD6-C948-439D-8C48-02B86B1FF007}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		RESX_ShowErrorsInErrorList = False
