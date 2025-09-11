@@ -1,8 +1,12 @@
-﻿// Copyright (c) Stéphane ANDRE. All Right Reserved.
-// See the LICENSE file in the project root for more information.
+﻿// -----------------------------------------------------------------------
+// <copyright file="Program.cs" company="Stéphane ANDRE">
+// Copyright (c) Stéphane ANDRE. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using MyGames.Connect4;
@@ -30,13 +34,13 @@ writeGameSummary(game);
 writeGameTable(game);
 while (!game.IsOver)
 {
-    var player = (ConsolePlayer)game.GetCurrentPlayer();
+    var player = (ConsolePlayer)game.CurrentPlayer;
     Connect4Move move = null!;
 
     switch (player)
     {
         case RandomPlayer:
-            AnsiConsole.Status().Start($"[bold {player.Color}] {player.DisplayName} thinking...[/]", ctx => Thread.Sleep(1000));
+            AnsiConsole.Status().Start($"[bold {player.Color}] {player.DisplayName} thinking...[/]", _ => Thread.Sleep(1000));
             move = player.NextMove(game);
             AnsiConsole.MarkupLine($"[bold {player.Color}] {player.DisplayName} plays in column {move.Column + 1}[/]");
             break;
@@ -56,10 +60,13 @@ while (!game.IsOver)
             AnsiConsole.Clear();
             writeGameSummary(game);
         }
+
         writeGameTable(game);
     }
     else
-        AnsiConsole.MarkupLine($"[bold red]Invalid move. Try again.[/]");
+    {
+        AnsiConsole.MarkupLine("[bold red]Invalid move. Try again.[/]");
+    }
 }
 
 // End summary
@@ -73,7 +80,7 @@ int promptOption(string prompt, int minValue, int defaultValue)
 
 Connect4Game createGame()
 {
-    var gameType = AnsiConsole.Prompt(new SelectionPrompt<string>().Title($"Choose game").AddChoices("Human vs Human", "Human vs Random", "Human vs AI", "Random vs Human", "Random vs Random", "Random vs AI", "AI vs Human", "AI vs Random", "AI vs AI", "Custom"));
+    var gameType = AnsiConsole.Prompt(new SelectionPrompt<string>().Title("Choose game").AddChoices("Human vs Human", "Human vs Random", "Human vs AI", "Random vs Human", "Random vs Random", "Random vs AI", "AI vs Human", "AI vs Random", "AI vs AI", "Custom"));
 
     int rows, columns, numberOfPiecesForWin;
     ConsolePlayer playerOne, playerTwo;
@@ -128,7 +135,7 @@ void writeGameSummary(Connect4Game game)
 void writeGameTable(Connect4Game game)
 {
     var table = new Table();
-    game.Board.Columns.ForEach(column => table.AddColumn(new TableColumn((column.Index + 1).ToString()).Centered()));
+    game.Board.Columns.ForEach(column => table.AddColumn(new TableColumn((column.Index + 1).ToString(CultureInfo.InvariantCulture)).Centered()));
     game.Board.Rows.ForEach(row => table.AddRow(row.Select(square => !square.IsEmpty ? writePiece(square.Piece) : string.Empty).ToArray()));
 
     AnsiConsole.Write(table);
@@ -136,7 +143,7 @@ void writeGameTable(Connect4Game game)
 }
 
 string writePlayer(ConsolePlayer player)
-    => $"[bold {player.Color}]{player.DisplayName} ({player.GetType().Name.Replace("Player", string.Empty)}{(player is AIPlayer ai ? $" - {ai.Level}" : string.Empty)})[/]";
+    => $"[bold {player.Color}]{player.DisplayName} ({player.GetType().Name.Replace("Player", string.Empty, StringComparison.OrdinalIgnoreCase)}{(player is AIPlayer ai ? $" - {ai.Level}" : string.Empty)})[/]";
 
 string writePiece(Connect4Piece piece) => $"{((ConsolePlayer)piece.Player).ConsoleSymbol}";
 

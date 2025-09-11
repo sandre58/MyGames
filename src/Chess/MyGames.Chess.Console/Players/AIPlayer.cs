@@ -1,20 +1,22 @@
-﻿// Copyright (c) Stéphane ANDRE. All Right Reserved.
-// See the LICENSE file in the project root for more information.
+﻿// -----------------------------------------------------------------------
+// <copyright file="AIPlayer.cs" company="Stéphane ANDRE">
+// Copyright (c) Stéphane ANDRE. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 
 using System;
 using MyGames.Chess.Strategies;
 
-namespace MyGames.Chess.Console.Players
+namespace MyGames.Chess.Console.Players;
+
+internal sealed class AIPlayer(string name, string color, Level level = Level.Medium) : ConsolePlayer(name, color)
 {
-    internal class AIPlayer(string name, string color, Level level = Level.Medium) : ConsolePlayer(name, color)
+    public Level Level { get; set; } = level;
+
+    public override IChessMove NextMove(ChessGame game)
     {
-        public Level Level { get; set; } = level;
+        var move = new ChessAlphaBetaStrategy(new NaiveBoardEvaluator(), Level).ProvideMove(game, this);
 
-        public override IChessMove NextMove(ChessGame game)
-        {
-            var move = new ChessAlphaBetaStrategy(new NaiveBoardEvaluator(), Level).ProvideMove(game, this);
-
-            return move ?? throw new InvalidOperationException("No move allowed");
-        }
+        return move ?? throw new InvalidOperationException("No move allowed");
     }
 }

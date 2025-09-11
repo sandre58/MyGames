@@ -1,12 +1,14 @@
-﻿// Copyright (c) Stéphane ANDRE. All Right Reserved.
-// See the LICENSE file in the project root for more information.
+﻿// -----------------------------------------------------------------------
+// <copyright file="IConnect4Player.cs" company="Stéphane ANDRE">
+// Copyright (c) Stéphane ANDRE. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 
-using MyGames.Domain;
+using MyGames.Core;
 
-namespace MyGames.Connect4
+namespace MyGames.Connect4;
+
+public interface IConnect4Player : IPlayer
 {
-    public interface IConnect4Player : IPlayer
-    {
-        public Connect4Move NextMove(Connect4Game game);
-    }
+    Connect4Move NextMove(Connect4Game game);
 }

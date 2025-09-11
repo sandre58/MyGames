@@ -1,20 +1,23 @@
-﻿// Copyright (c) Stéphane ANDRE. All Right Reserved.
-// See the LICENSE file in the project root for more information.
+﻿// -----------------------------------------------------------------------
+// <copyright file="Queen.cs" company="Stéphane ANDRE">
+// Copyright (c) Stéphane ANDRE. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 
 using System.Collections.Generic;
 using MyGames.Chess.Extensions;
-using MyGames.Domain;
+using MyGames.Core;
 
-namespace MyGames.Chess
+namespace MyGames.Chess;
+
+public sealed class Queen(ChessColor color) : ChessPiece(color)
 {
-    public class Queen : ChessPiece
-    {
-        public Queen(ChessColor color) : base(color) { }
+    protected override string GetNotation() => "♛";
 
-        protected override string GetNotation() => "♛";
-
-        protected override IEnumerable<BoardCoordinates> GetPossibleMoves(ChessBoard board, BoardCoordinates from)
-            => board.GetAllPossibleMoves(from, Color,
+    protected override IEnumerable<BoardCoordinates> GetPossibleMoves(ChessBoard board, BoardCoordinates from)
+        => board.GetAllPossibleMoves(
+            from,
+            Color,
             [
                 new BoardDirectionOffset(BoardDirection.Up, board.Columns.Count), // Up
                 new BoardDirectionOffset(BoardDirection.Down, board.Columns.Count), // Down
@@ -25,5 +28,4 @@ namespace MyGames.Chess
                 new BoardDirectionOffset(BoardDirection.DownLeft, board.Columns.Count), // Down left
                 new BoardDirectionOffset(BoardDirection.DownRight, board.Columns.Count) // Down right
             ]);
-    }
 }

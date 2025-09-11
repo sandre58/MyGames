@@ -1,14 +1,17 @@
-﻿// Copyright (c) Stéphane ANDRE. All Right Reserved.
-// See the LICENSE file in the project root for more information.
+﻿// -----------------------------------------------------------------------
+// <copyright file="Level.cs" company="Stéphane ANDRE">
+// Copyright (c) Stéphane ANDRE. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 
-namespace MyGames.Chess.Strategies
+namespace MyGames.Chess.Strategies;
+
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1008:Enums should have zero value", Justification = "We won't level zero")]
+public enum Level
 {
-    public enum Level
-    {
-        VeryEasy = 1,
+    VeryEasy = 1,
 
-        Medium = 3,
+    Medium = 3,
 
-        Hard = 6
-    }
+    Hard = 6
 }

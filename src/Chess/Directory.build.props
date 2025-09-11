@@ -1,8 +1,7 @@
 <Project>
-  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
-  
-  <PropertyGroup>
-    <Product>Chess</Product>
-    <Description>This class library provides all the necessary components to implement the classic Chess game.</Description>
-  </PropertyGroup>
+    <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../../'))" />
+
+    <PropertyGroup>
+        <Product>Chess</Product>
+    </PropertyGroup>
 </Project>

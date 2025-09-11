@@ -1,14 +1,15 @@
-﻿// Copyright (c) Stéphane ANDRE. All Right Reserved.
-// See the LICENSE file in the project root for more information.
+﻿// -----------------------------------------------------------------------
+// <copyright file="SquaresExtensions.cs" company="Stéphane ANDRE">
+// Copyright (c) Stéphane ANDRE. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 
 using System.Linq;
-using MyGames.Domain;
+using MyGames.Core;
 
-namespace MyGames.Connect4.Extensions
+namespace MyGames.Connect4.Extensions;
+
+public static class SquaresExtensions
 {
-    public static class SquaresExtensions
-    {
-        public static int GetNextRow(this SquaresColumn<Connect4Piece> column) => column.IsFull() ? -1 : column.Last(x => x.IsEmpty).Row;
-
-    }
+    public static int GetNextRow(this SquaresColumn<Connect4Piece> column) => column.IsFull() ? -1 : column.Last(x => x.IsEmpty).Row;
 }

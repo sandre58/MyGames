@@ -1,0 +1,170 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Chess", "Chess", "{2DC8D602-4EBA-460C-AAAA-D0BD8BFDF88E}"
+	ProjectSection(SolutionItems) = preProject
+		src\Chess\Directory.build.props = src\Chess\Directory.build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connect4", "Connect4", "{A09EDC05-81AC-42D0-B3DF-7EB9AB51C2D7}"
+	ProjectSection(SolutionItems) = preProject
+		src\Connect4\Directory.build.props = src\Connect4\Directory.build.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Chess", "src\Chess\MyGames.Chess\MyGames.Chess.csproj", "{268E2FAF-9708-4E36-B08F-49CF18CB5E27}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Core", "src\Common\MyGames.Core\MyGames.Core.csproj", "{8201550C-D40E-4BEE-9A07-C40639DEEE90}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Connect4", "src\Connect4\MyGames.Connect4\MyGames.Connect4.csproj", "{5DF87A55-D890-40D2-A81D-DBB5A34D72EB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Connect4.Wpf", "src\Connect4\MyGames.Connect4.Wpf\MyGames.Connect4.Wpf.csproj", "{E78B086B-98CD-4CDD-819F-EFAACB92FF11}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Connect4.Console", "src\Connect4\MyGames.Connect4.Console\MyGames.Connect4.Console.csproj", "{34102D87-C732-4E94-874A-5242F08A19CF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyGames.Chess.Console", "src\Chess\MyGames.Chess.Console\MyGames.Chess.Console.csproj", "{65406E0F-1B21-4F2A-9E73-239BA32A6334}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Github Actions", "Github Actions", "{9D37235B-4113-4F04-91F8-60D738F579BD}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\ci.yml = .github\workflows\ci.yml
+		.github\workflows\deploy-pages.yml = .github\workflows\deploy-pages.yml
+		.github\workflows\release.yml = .github\workflows\release.yml
+		.github\workflows\tag.yml = .github\workflows\tag.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Games", "Games", "{FEC4FB88-CF66-49C9-9569-232B4600CCB1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{41B14881-ECA4-4E56-A175-1CB03DD0DCFA}"
+	ProjectSection(SolutionItems) = preProject
+		.runsettings = .runsettings
+		build\code-analysis.props = build\code-analysis.props
+		build\dependencies.props = build\dependencies.props
+		Directory.build.props = Directory.build.props
+		Directory.build.targets = Directory.build.targets
+		global.json = global.json
+		nuget.config = nuget.config
+		Settings.XamlStyler = Settings.XamlStyler
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{703D641F-B61F-4606-B55F-0E3E9FEDB257}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyGames.Chess.UnitTests", "tests\MyGames.Chess.UnitTests\MyGames.Chess.UnitTests.csproj", "{7EB12E4B-A184-D19A-422B-99EBE75D7148}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyGames.Core.UnitTests", "tests\MyGames.Core.UnitTests\MyGames.Core.UnitTests.csproj", "{1E3D421F-C3F2-7189-FC7F-AED1BFE6DEFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyGames.Connect4.UnitTests", "tests\MyGames.Connect4.UnitTests\MyGames.Connect4.UnitTests.csproj", "{5002FC5C-EC4D-C448-2B3D-2B9D0ACE42A4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Analysis", "Code Analysis", "{FAFCA339-B365-461F-B297-6AA8B0AD517F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		stylecop.json = stylecop.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{3539F299-1ED3-482F-AC6F-E5A7967124CE}"
+	ProjectSection(SolutionItems) = preProject
+		assets\chess.png = assets\chess.png
+		assets\connect4.png = assets\connect4.png
+		assets\logo.png = assets\logo.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{E417987B-CD8D-46C8-B016-615931DE1F47}"
+	ProjectSection(SolutionItems) = preProject
+		CHANGELOG.md = CHANGELOG.md
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		CONTRIBUTING.md = CONTRIBUTING.md
+		.github\docs\CONVENTIONAL_COMMITS.md = .github\docs\CONVENTIONAL_COMMITS.md
+		LICENSE = LICENSE
+		.github\PULL_REQUEST_TEMPLATE.md = .github\PULL_REQUEST_TEMPLATE.md
+		README.md = README.md
+		.github\docs\WORKFLOWS.md = .github\docs\WORKFLOWS.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Versioning", "Versioning", "{AF7E2E89-FAB5-4AA8-AEA8-81462EF3D4A1}"
+	ProjectSection(SolutionItems) = preProject
+		version.json = version.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{5D37855F-9F27-486F-A453-3CC194A67B14}"
+	ProjectSection(SolutionItems) = preProject
+		.github\.chglog\CHANGELOG.tpl.md = .github\.chglog\CHANGELOG.tpl.md
+		.github\.chglog\config.yml = .github\.chglog\config.yml
+		.github\.chglog\release-config.yml = .github\.chglog\release-config.yml
+		.github\.chglog\RELEASE.tpl.md = .github\.chglog\RELEASE.tpl.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{268E2FAF-9708-4E36-B08F-49CF18CB5E27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{268E2FAF-9708-4E36-B08F-49CF18CB5E27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{268E2FAF-9708-4E36-B08F-49CF18CB5E27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{268E2FAF-9708-4E36-B08F-49CF18CB5E27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8201550C-D40E-4BEE-9A07-C40639DEEE90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8201550C-D40E-4BEE-9A07-C40639DEEE90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8201550C-D40E-4BEE-9A07-C40639DEEE90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8201550C-D40E-4BEE-9A07-C40639DEEE90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DF87A55-D890-40D2-A81D-DBB5A34D72EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DF87A55-D890-40D2-A81D-DBB5A34D72EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DF87A55-D890-40D2-A81D-DBB5A34D72EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DF87A55-D890-40D2-A81D-DBB5A34D72EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E78B086B-98CD-4CDD-819F-EFAACB92FF11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E78B086B-98CD-4CDD-819F-EFAACB92FF11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E78B086B-98CD-4CDD-819F-EFAACB92FF11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E78B086B-98CD-4CDD-819F-EFAACB92FF11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34102D87-C732-4E94-874A-5242F08A19CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34102D87-C732-4E94-874A-5242F08A19CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34102D87-C732-4E94-874A-5242F08A19CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34102D87-C732-4E94-874A-5242F08A19CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65406E0F-1B21-4F2A-9E73-239BA32A6334}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65406E0F-1B21-4F2A-9E73-239BA32A6334}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65406E0F-1B21-4F2A-9E73-239BA32A6334}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65406E0F-1B21-4F2A-9E73-239BA32A6334}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EB12E4B-A184-D19A-422B-99EBE75D7148}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EB12E4B-A184-D19A-422B-99EBE75D7148}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EB12E4B-A184-D19A-422B-99EBE75D7148}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EB12E4B-A184-D19A-422B-99EBE75D7148}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E3D421F-C3F2-7189-FC7F-AED1BFE6DEFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E3D421F-C3F2-7189-FC7F-AED1BFE6DEFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E3D421F-C3F2-7189-FC7F-AED1BFE6DEFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E3D421F-C3F2-7189-FC7F-AED1BFE6DEFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5002FC5C-EC4D-C448-2B3D-2B9D0ACE42A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5002FC5C-EC4D-C448-2B3D-2B9D0ACE42A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5002FC5C-EC4D-C448-2B3D-2B9D0ACE42A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5002FC5C-EC4D-C448-2B3D-2B9D0ACE42A4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2DC8D602-4EBA-460C-AAAA-D0BD8BFDF88E} = {FEC4FB88-CF66-49C9-9569-232B4600CCB1}
+		{A09EDC05-81AC-42D0-B3DF-7EB9AB51C2D7} = {FEC4FB88-CF66-49C9-9569-232B4600CCB1}
+		{268E2FAF-9708-4E36-B08F-49CF18CB5E27} = {2DC8D602-4EBA-460C-AAAA-D0BD8BFDF88E}
+		{8201550C-D40E-4BEE-9A07-C40639DEEE90} = {FEC4FB88-CF66-49C9-9569-232B4600CCB1}
+		{5DF87A55-D890-40D2-A81D-DBB5A34D72EB} = {A09EDC05-81AC-42D0-B3DF-7EB9AB51C2D7}
+		{E78B086B-98CD-4CDD-819F-EFAACB92FF11} = {A09EDC05-81AC-42D0-B3DF-7EB9AB51C2D7}
+		{34102D87-C732-4E94-874A-5242F08A19CF} = {A09EDC05-81AC-42D0-B3DF-7EB9AB51C2D7}
+		{65406E0F-1B21-4F2A-9E73-239BA32A6334} = {2DC8D602-4EBA-460C-AAAA-D0BD8BFDF88E}
+		{41B14881-ECA4-4E56-A175-1CB03DD0DCFA} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{7EB12E4B-A184-D19A-422B-99EBE75D7148} = {703D641F-B61F-4606-B55F-0E3E9FEDB257}
+		{1E3D421F-C3F2-7189-FC7F-AED1BFE6DEFA} = {703D641F-B61F-4606-B55F-0E3E9FEDB257}
+		{5002FC5C-EC4D-C448-2B3D-2B9D0ACE42A4} = {703D641F-B61F-4606-B55F-0E3E9FEDB257}
+		{FAFCA339-B365-461F-B297-6AA8B0AD517F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{3539F299-1ED3-482F-AC6F-E5A7967124CE} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{E417987B-CD8D-46C8-B016-615931DE1F47} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{AF7E2E89-FAB5-4AA8-AEA8-81462EF3D4A1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{5D37855F-9F27-486F-A453-3CC194A67B14} = {9D37235B-4113-4F04-91F8-60D738F579BD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		RESX_CodeReferences = {"Items":[{"Expression":"\\W($File.$Key)\\W","Extensions":".cs,.xaml,.cshtml","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"\\W($File.$Key)\\W","Extensions":".vbhtml","IsCaseSensitive":false,"SingleLineComment":null},{"Expression":"ResourceManager.GetString\\(\"($Key)\"\\)","Extensions":".cs","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"typeof\\((\\w+\\.)*($File)\\).+\"($Key)\"|\"($Key)\".+typeof\\((\\w+\\.)*($File)\\)","Extensions":".cs","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"\\W($Key)\\W","Extensions":".vb","IsCaseSensitive":false,"SingleLineComment":"'"},{"Expression":"\\W($File::$Key)\\W","Extensions":".cpp,.c,.hxx,.h","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"&lt;%\\$\\s+Resources:\\s*($File)\\s*,\\s*($Key)\\s*%&gt;","Extensions":".aspx,.ascx,.master","IsCaseSensitive":true,"SingleLineComment":null},{"Expression":"StringResourceKey\\.($Key)","Extensions":".cs","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"\\.($Key)","Extensions":".ts,.html","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"typeof\\((\\w+\\.)*($File)\\).+nameof\\(($Key)\\)|nameof\\(($Key)\\).+typeof\\((\\w+\\.)*($File)\\)","Extensions":".cs","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"{me:Resource (Key=)?($Key).*","Extensions":".xaml","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"{me:Translation .*Format=$Key.*","Extensions":".xaml","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"{my:Resource (Key=)?($Key).*","Extensions":".xaml","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"Format=($Key)","Extensions":".xaml","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"{my:ShortcutResource (Key=)?($Key).*","Extensions":".xaml","IsCaseSensitive":true,"SingleLineComment":"\/\/"}]}
+		SolutionGuid = {4C2A7472-FBCC-4D2C-B21D-0C83E4ADAA1A}
+		RESX_NeutralResourcesLanguage = fr-FR
+		RESX_AutoCreateNewLanguageFiles = True
+		RESX_ConfirmAddLanguageFile = True
+	EndGlobalSection
+EndGlobal
