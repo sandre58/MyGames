@@ -29,13 +29,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - id: set-projects
+      - name: Discover Projects
+        id: set-projects
         run: |
           project_info=$(find src -name "*.csproj" | while read path; do
             module=$(basename "$(dirname "$(dirname "$path")")")
             project=$(basename "$path" .csproj)
             echo "{\"module\": \"$module\", \"project\": \"$project\"}"
           done | jq -c -s .)
+          echo $project_info
           echo "projects=$project_info" >> $GITHUB_OUTPUT
 
   release:
