@@ -18,7 +18,6 @@ env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
-  VERSION: ""
 
 jobs:
   discover-projects:
@@ -33,10 +32,10 @@ jobs:
       - id: set-projects
         run: |
           project_info=$(find src -name "*.csproj" | while read path; do
-          module=$(basename "$(dirname "$(dirname "$path")")")
-          project=$(basename "$path" .csproj)
-          echo "{\"module\": \"$module\", \"project\": \"$project\"}"
-          done | jq -s .)
+            module=$(basename "$(dirname "$(dirname "$path")")")
+            project=$(basename "$path" .csproj)
+            echo "{\"module\": \"$module\", \"project\": \"$project\"}"
+          done | jq -c -s .)
           echo "projects=$project_info" >> $GITHUB_OUTPUT
 
   release:
