@@ -1,10 +1,10 @@
-name: CI - Build and Test
+name: CI - Build and Tests
 
 on:
   push:
-    branches: [ "main", "feature/*", "hotfix/*" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+      - 'feature/**'
 
 permissions:
   contents: read       # Required to checkout code
@@ -18,20 +18,46 @@ env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  VERSION: ""
 
 jobs:
-
-  # Job 1: Build non-WPF projects on Linux
-  build:
-    runs-on: windows-latest
-    
+  discover-projects:
+    runs-on: ubuntu-latest
+    outputs:
+      projects: ${{ steps.set-projects.outputs.projects }}
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: set-projects
+        run: |
+          project_info=$(find src -name "*.csproj" | while read path; do
+          module=$(basename "$(dirname "$(dirname "$path")")")
+          project=$(basename "$path" .csproj)
+          echo "{\"module\": \"$module\", \"project\": \"$project\"}"
+          done | jq -s .)
+          echo "projects=$project_info" >> $GITHUB_OUTPUT
+
+  release:
+    needs: discover-projects
+    runs-on: windows-latest
+    strategy:
+      matrix: ${{ fromJson(needs.discover-projects.outputs.projects) }}
+
+    steps:
+      - name: Validate matrix inputs
+        run: |
+          if (-not "${{ matrix.module }}" -or -not "${{ matrix.project }}") {
+            throw "Invalid matrix configuration"
+          }
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Required for NBGV
+          fetch-depth: 0
 
-      - name: Setup .NET
+      - name: Install Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
@@ -40,26 +66,90 @@ jobs:
             8.0.x
 
       - name: Install workloads
+        if: contains(matrix.project, 'Browser') || contains(matrix.project, 'Android')
         run: |
           dotnet workload install wasm-tools
           dotnet workload install android
           dotnet workload restore
 
+      - name: Install Node + semantic-release
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - run: npm install -g semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/changelog @semantic-release/git @semantic-release/github @semantic-release/exec
+
+      - name: Get commits for project
+        id: commits
+        run: |
+          $last_tag = git describe --tags --match "${{ matrix.project }}-v*" --abbrev=0 --first-parent 2>$null
+          if (-not $last_tag) {
+            $range = ""
+          } else {
+            $range = "$last_tag..HEAD"
+          }
+          git log $range --pretty=format:"%s" -- ${{ matrix.project }} > commits.txt
+          if (!(Get-Content commits.txt | Where-Object { $_.Trim() })) {
+            echo "NO_COMMITS=true" >> $env:GITHUB_OUTPUT
+          }
+
+      - name: Calculate new version
+        id: version
+        if: steps.commits.outputs.NO_COMMITS != 'true'
+        run: |
+          npx semantic-release `
+          --branches main `
+          --tag-format "${{ matrix.project }}-v`$`{version}" `
+          --ci false `
+          --dry-run > output.log
+
+          $versionLine = Select-String "next release version is" output.log | Select-Object -Last 1
+          if ($versionLine) {
+            $version = $versionLine.Line.Split()[-1]
+          } else {
+            Write-Host "No semantic version found, using fallback"
+            $version = "0.1.0"
+          }
+          echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Update NBGV version
+        if: steps.version.outputs.VERSION != ''
+        run: |
+          dotnet tool install --global nbgv
+          $versionJsonPath = "./src/${{ matrix.module }}/${{ matrix.project }}/version.json"
+          if (Test-Path $versionJsonPath) {
+            nbgv set-version ${{ steps.version.outputs.VERSION }} --version-json $versionJsonPath
+          } else {
+            Write-Host "Creating version.json at $versionJsonPath"
+            New-Item -Path (Split-Path $versionJsonPath) -ItemType Directory -Force
+            @{ version = "${{ steps.version.outputs.VERSION }}" } | ConvertTo-Json | Out-File $versionJsonPath -Encoding UTF8
+          }
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
       - name: Restore dependencies
         run: |
-          dotnet restore
+          dotnet restore "src/${{ matrix.module }}/${{ matrix.project }}/${{ matrix.project }}.csproj"
 
-      - name: Build non-WPF projects
+      - name: Build
         run: |
-          dotnet build --configuration Release --no-restore
+          dotnet build "src/${{ matrix.module }}/${{ matrix.project }}/${{ matrix.project }}.csproj" --configuration Release --no-restore
 
       - name: Run tests with coverage
         run: |
-          # Create results directory
-          New-Item -ItemType Directory -Path "./TestResults" -Force
+          $test_project_path = "tests/${{ matrix.project }}.UnitTests/${{ matrix.project }}.UnitTests.csproj"
+          if (-not (Test-Path $test_project_path)) {
+            Write-Host "No test project found at $test_project_path, skipping tests."
+            exit 0
+          }
 
           # Run tests with coverage collection using Directory.Build.targets configuration
-          dotnet test --no-build --configuration Release `
+          dotnet test $test_project_path --configuration Release `
             --collect:"XPlat Code Coverage" `
             --settings .runsettings `
             --logger GitHubActions `
@@ -74,15 +164,6 @@ jobs:
             $coverageFiles | ForEach-Object { Write-Host $_.FullName }
           } else {
             Write-Host "No coverage files found yet"
-          }
-
-      - name: Publish Apps
-        run: |
-          Get-ChildItem -Path "src" -Filter "*.csproj" -Recurse | Where-Object { $_.BaseName -like "*.Wpf*" -or $_.BaseName -like "*.Console*" -or $_.BaseName -like "*.Avalonia*" }  | ForEach-Object {
-            $projectName = $_.BaseName
-            Write-Host "📦 Publishing: $projectName"
-            
-            dotnet publish "$($_.FullName)" --configuration Release --output "publish/$projectName"
           }
 
       - name: Generate coverage report
@@ -101,7 +182,6 @@ jobs:
 
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
         with:
           files: TestResults/**/*.trx
           check_name: 'Test Results'
@@ -113,40 +193,3 @@ jobs:
         with:
           name: coverage-report-linux
           path: coveragereport
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: apps
-          path: publish/**
-
-  # Job 4: Résumé des artifacts et build summary
-  publish-artifacts-summary:
-    runs-on: ubuntu-latest
-    needs: [build]
-    if: always()
-    steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts
-
-      - name: Display artifacts summary
-        run: |
-          echo "📦 All artifacts downloaded:"
-          find artifacts -type f -o -name "*.exe" -o -name "*.dll" | head -20
-          echo ""
-          echo "📊 Artifacts summary:"
-          echo "  Demo executables: $(find artifacts -name "**/*.exe" | wc -l)"
-          echo "  Coverage reports: $(find artifacts -name "coverage-report-linux" -type d | wc -l)"
-
-      - name: Display build summary
-        run: |
-          echo "## 🚀 Build Summary" >> $GITHUB_STEP_SUMMARY
-          echo "| Component | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "|-----------|--------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Projects | ${{ needs.build.result == 'success' && '✅ Success' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**📦 Artifacts Generated:**" >> $GITHUB_STEP_SUMMARY
-          echo "- Demo Executables: $(find artifacts -name "*.exe" | wc -l)" >> $GITHUB_STEP_SUMMARY
-          echo "- Coverage Reports: Available" >> $GITHUB_STEP_SUMMARY
