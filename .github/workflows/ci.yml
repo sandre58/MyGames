@@ -44,7 +44,8 @@ jobs:
     needs: discover-projects
     runs-on: windows-latest
     strategy:
-      matrix: ${{ fromJson(needs.discover-projects.outputs.projects) }}
+      matrix:
+        include: ${{ fromJson(needs.discover-projects.outputs.projects) }}
 
     steps:
       - name: Validate matrix inputs
