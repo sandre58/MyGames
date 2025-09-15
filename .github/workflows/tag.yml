@@ -9,6 +9,7 @@ on:
         default: ""
         type: choice
         options:
+          - All
           - MyGames.Core
           - MyGames.Chess
           - MyGames.Chess.Console
@@ -20,9 +21,10 @@ on:
         required: false
         default: ""
       dry_run:
-        description: "Mode DRY_RUN (true pour simuler sans tagguer)"
+        description: "DRY_RUN mode (check to simulate without tagging)"
         required: false
-        default: "false"
+        default: false
+        type: boolean
 
 jobs:
   discover-projects:
@@ -95,7 +97,7 @@ jobs:
             fi
           }
 
-          if [ -n "$PROJECT_INPUT" ]; then
+          if [ -n "$PROJECT_INPUT" ] && [ "$PROJECT_INPUT" != "All" ]; then
             echo "Single project mode: $PROJECT_INPUT"
             
             # Determine the version for this project

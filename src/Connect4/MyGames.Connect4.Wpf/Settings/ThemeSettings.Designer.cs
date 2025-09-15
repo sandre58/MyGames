@@ -12,7 +12,7 @@ namespace MyGames.Connect4.Wpf.Settings {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.10.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.14.0.0")]
     internal sealed partial class ThemeSettings : global::System.Configuration.ApplicationSettingsBase {
         
         private static ThemeSettings defaultInstance = ((ThemeSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new ThemeSettings())));
