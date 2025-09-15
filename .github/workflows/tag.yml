@@ -1,0 +1,180 @@
+name: Tag
+
+on:
+  workflow_dispatch:
+    inputs:
+      project:
+        description: "Project name to release or empty for all"
+        required: false
+        default: ""
+        type: choice
+        options:
+          - MyGames.Core
+          - MyGames.Chess
+          - MyGames.Chess.Console
+          - MyGames.Connect4
+          - MyGames.Connect4.Console
+          - MyGames.Connect4.Wpf
+      version:
+        description: "Explicit version (e.g., 1.2.3) or empty for auto"
+        required: false
+        default: ""
+      dry_run:
+        description: "Mode DRY_RUN (true pour simuler sans tagguer)"
+        required: false
+        default: "false"
+
+jobs:
+  discover-projects:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-projects.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js (for semantic-release)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install semantic-release
+        run: npm install -g semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator
+
+      - name: Discover projects and calculate versions
+        id: set-projects
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PROJECT_INPUT="${{ inputs.project }}"
+          VERSION_INPUT="${{ inputs.version }}"
+          
+          echo "Project input: '$PROJECT_INPUT'"
+          echo "Version input: '$VERSION_INPUT'"
+          
+          # Function to calculate semantic version for a project (only commits touching the project folder)
+          calculate_semantic_version() {
+            local PROJECT=$1
+            echo "Calculating semantic version for $PROJECT..."
+            
+            # Create a temporary branch with only commits touching the project folder
+            TMP_BRANCH="tmp-semrel-$PROJECT-$$"
+            git checkout -b "$TMP_BRANCH"
+            # Reset to main and cherry-pick only relevant commits
+            git reset --hard origin/main
+            COMMITS=$(git log --pretty=format:"%H" -- "src/$PROJECT")
+            git checkout --orphan "$TMP_BRANCH-orphan" origin/main
+            git rm -rf .
+            git commit --allow-empty -m "Start orphan branch for semantic-release $PROJECT"
+            for commit in $COMMITS; do
+              git cherry-pick $commit || true
+            done
+            git checkout "$TMP_BRANCH-orphan"
+            
+            # Use semantic-release in dry-run mode to get next version
+            npx semantic-release \
+              --branches "$TMP_BRANCH-orphan" \
+              --tag-format "$PROJECT-v\${version}" \
+              --ci false \
+              --dry-run > /tmp/semantic_output_$PROJECT.log 2>&1
+            
+            # Extract version from output
+            VERSION=$(grep -E "next release version is|Published release" /tmp/semantic_output_$PROJECT.log | tail -1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' || echo "")
+            
+            # Cleanup
+            git checkout main
+            git branch -D "$TMP_BRANCH" "$TMP_BRANCH-orphan"
+            
+            if [ -n "$VERSION" ]; then
+              echo "Calculated version for $PROJECT: $VERSION"
+              echo "$VERSION"
+            else
+              echo "No new version calculated for $PROJECT (no significant commits or already up to date)"
+              echo ""
+            fi
+          }
+
+          if [ -n "$PROJECT_INPUT" ]; then
+            echo "Single project mode: $PROJECT_INPUT"
+            
+            # Determine the version for this project
+            if [ -n "$VERSION_INPUT" ]; then
+              PROJECT_VERSION="$VERSION_INPUT"
+              echo "Using explicit version: $PROJECT_VERSION"
+            else
+              PROJECT_VERSION=$(calculate_semantic_version "$PROJECT_INPUT")
+            fi
+       
+            if [ -n "$PROJECT_VERSION" ]; then
+              PROJECTS_TO_TAG="${PROJECTS_TO_TAG}{\"project\":\"$PROJECT_INPUT\",\"version\":\"$PROJECT_VERSION\"},"
+            else
+              echo "No version to tag for $PROJECT_INPUT, skipping..."
+            fi
+          else
+            echo "Multi-project mode: analyzing all projects..."
+            
+            # Find all projects (directories in src/)
+            for project_dir in src/*/; do
+              if [ -d "$project_dir" ]; then
+                PROJECT_NAME=$(basename "$project_dir")
+                echo "Analyzing project: $PROJECT_NAME"
+                
+                PROJECT_VERSION=$(calculate_semantic_version "$PROJECT_NAME")
+                
+                if [ -n "$PROJECT_VERSION" ]; then
+                  echo "Will tag $PROJECT_NAME with version $PROJECT_VERSION"
+                  PROJECTS_TO_TAG="${PROJECTS_TO_TAG}{\"project\":\"$PROJECT_NAME\",\"version\":\"$PROJECT_VERSION\"},"
+                else
+                  echo "No changes in $PROJECT_NAME, skipping..."
+                fi
+              fi
+            done
+          fi
+
+          # Finalize JSON
+          PROJECTS_TO_TAG=["${PROJECTS_TO_TAG%,}]"
+          
+          echo "Final matrix: $PROJECTS_TO_TAG"
+          echo "matrix=$PROJECTS_TO_TAG" >> $GITHUB_OUTPUT
+
+  tag-project:
+    runs-on: ubuntu-latest
+    needs: [discover-projects]
+    if: needs.discover-projects.outputs.matrix != '[]'
+    strategy:
+      matrix:
+        include: ${{ fromJson(needs.discover-projects.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Display project info
+        run: |
+          echo "Project to tag: ${{ matrix.project }}"
+          echo "Version to tag: ${{ matrix.version }}"
+
+      - name: Create and push tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PROJECT="${{ matrix.project }}"
+          VERSION="${{ matrix.version }}"
+          DRY_RUN="${{ inputs.dry_run }}"
+          
+          echo "Creating tag $PROJECT-v$VERSION"
+          
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          # Create and push the tag
+          git tag "$PROJECT-v$VERSION" -m "Release $PROJECT v$VERSION"
+          
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "[DRY_RUN] Tag $PROJECT-v$VERSION would be pushed."
+          else
+            git push origin "$PROJECT-v$VERSION"
+            echo "✅ Successfully tagged $PROJECT-v$VERSION"
+          fi
