@@ -59,7 +59,11 @@ jobs:
           calculate_semantic_version() {
             local PROJECT=$1
             echo "Calculating semantic version for $PROJECT..."
-            
+
+            # Configure git
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
             # Create a temporary branch with only commits touching the project folder
             TMP_BRANCH="tmp-semrel-$PROJECT-$$"
             git checkout -b "$TMP_BRANCH"
