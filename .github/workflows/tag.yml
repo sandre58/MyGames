@@ -116,8 +116,8 @@ jobs:
           else
             echo "Multi-project mode: analyzing all projects..."
             
-            # Find all projects (directories in src/)
-            for project_dir in src/*/; do
+            # Find all projects (directories in src/*/)
+            for project_dir in src/*/*/; do
               if [ -d "$project_dir" ]; then
                 PROJECT_NAME=$(basename "$project_dir")
                 echo "Analyzing project: $PROJECT_NAME"
