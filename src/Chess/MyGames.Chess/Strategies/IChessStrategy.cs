@@ -1,11 +1,11 @@
-﻿// Copyright (c) Stéphane ANDRE. All Right Reserved.
-// See the LICENSE file in the project root for more information.
+﻿// -----------------------------------------------------------------------
+// <copyright file="IChessStrategy.cs" company="Stéphane ANDRE">
+// Copyright (c) Stéphane ANDRE. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 
-using MyGames.Domain.Strategies;
+using MyGames.Core.Strategies;
 
-namespace MyGames.Chess.Strategies
-{
-    public interface IChessStrategy : IStrategy<ChessGame, ChessBoard, IChessMove, ChessPlayedMove>
-    {
-    }
-}
+namespace MyGames.Chess.Strategies;
+
+public interface IChessStrategy : IStrategy<ChessGame, ChessBoard, IChessMove, ChessPlayedMove>;

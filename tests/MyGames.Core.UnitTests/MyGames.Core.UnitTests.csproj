@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Common\MyGames.Core\MyGames.Core.csproj" />
+  </ItemGroup>
+
+</Project>

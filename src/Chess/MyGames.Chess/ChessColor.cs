@@ -1,12 +1,14 @@
-﻿// Copyright (c) Stéphane ANDRE. All Right Reserved.
-// See the LICENSE file in the project root for more information.
+﻿// -----------------------------------------------------------------------
+// <copyright file="ChessColor.cs" company="Stéphane ANDRE">
+// Copyright (c) Stéphane ANDRE. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 
-namespace MyGames.Chess
+namespace MyGames.Chess;
+
+public enum ChessColor
 {
-    public enum ChessColor
-    {
-        White,
+    White,
 
-        Black
-    }
+    Black
 }

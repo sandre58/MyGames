@@ -1,14 +1,16 @@
-﻿// Copyright (c) Stéphane ANDRE. All Right Reserved.
-// See the LICENSE file in the project root for more information.
+﻿// -----------------------------------------------------------------------
+// <copyright file="IChessMove.cs" company="Stéphane ANDRE">
+// Copyright (c) Stéphane ANDRE. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 
-using MyGames.Domain;
+using MyGames.Core;
 
-namespace MyGames.Chess
+namespace MyGames.Chess;
+
+public interface IChessMove : IMove<ChessBoard, ChessPlayedMove>
 {
-    public interface IChessMove : IMove<ChessBoard, ChessPlayedMove>
-    {
-        ChessPiece Piece { get; }
+    ChessPiece Piece { get; }
 
-        bool IsValid(ChessGame game);
-    }
+    bool IsValid(ChessGame game);
 }

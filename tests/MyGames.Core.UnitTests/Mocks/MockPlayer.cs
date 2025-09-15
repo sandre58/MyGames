@@ -1,0 +1,9 @@
+﻿// -----------------------------------------------------------------------
+// <copyright file="MockPlayer.cs" company="Stéphane ANDRE">
+// Copyright (c) Stéphane ANDRE. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace MyGames.Core.UnitTests.Mocks;
+
+public class MockPlayer : IPlayer;

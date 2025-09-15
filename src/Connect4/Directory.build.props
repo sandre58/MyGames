@@ -1,8 +1,7 @@
 <Project>
-  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
-  
-  <PropertyGroup>
-    <Product>Connect'4</Product>
-    <Description>This class library provides all the necessary components to implement the classic Connect Four game.</Description>
-  </PropertyGroup>
+    <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../../'))" />
+
+    <PropertyGroup>
+        <Product>Connect'4</Product>
+    </PropertyGroup>
 </Project>

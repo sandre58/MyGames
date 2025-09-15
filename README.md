@@ -4,7 +4,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/sandre58/MyGames">
-    <img src="images/logo.png" width="256" height="256">
+    <img src="assets/logo.png" width="256" height="256">
   </a>
 
 <h1 align="center">My Games</h1>
@@ -17,7 +17,9 @@
 
   <p align="center">
     <br />
-    Welcome to My Games repository! This repository contains a collection of classic board games implemented using WPF (Windows Presentation Foundation). Whether you're a fan of chess, Connect 4, or other classic games, this repository offers a variety of entertaining options to enjoy on your Windows desktop.
+    A comprehensive collection of classic board games implemented in C# with .NET 10. 
+    Features both console applications and rich WPF desktop interfaces with AI opponents, 
+    customizable gameplay, and modern user experiences.
   </p>
 
 [![Language][language-shield]][language-url]
@@ -25,50 +27,238 @@
 
 </div>
 
-## Features
+## 🎯 Overview
 
-- **Interactive Gameplay**: Enjoy interactive gameplay with intuitive controls and user-friendly interfaces.
-- **Single Player and Multiplayer Modes**: Choose to play against a computer opponent or challenge a friend in multiplayer mode.
-- **Customization Options**: Customize game settings and difficulty levels to suit your preferences and skill level.
-- **Save and Resume**: Save your game progress and resume playing later without losing your current position.
+My Games is a modern implementation of classic board games built with .NET 10, offering multiple ways to play your favorite games. Each game includes:
 
-## Games included
+- **Multiple Interfaces**: Console applications for quick play and WPF desktop apps for rich visual experiences
+- **AI Opponents**: Sophisticated artificial intelligence with configurable difficulty levels
+- **Customizable Gameplay**: Adjustable rules, board sizes, and game settings
+- **Clean Architecture**: Well-structured, testable code with comprehensive unit test coverage
+- **Cross-Platform Core**: Game logic built for portability and extensibility
 
-### Chess
+## ✨ Key Features
+
+- **🎮 Multiple Game Modes**: Play against AI opponents or challenge friends in local multiplayer
+- **🖥️ Dual Interfaces**: Choose between lightweight console apps or feature-rich WPF desktop applications
+- **🤖 Advanced AI**: Alpha-beta pruning algorithms with multiple difficulty levels for challenging gameplay
+- **⚙️ Highly Customizable**: Adjust board sizes, rules, difficulty settings, and visual themes
+- **🏗️ Modern Architecture**: Clean, testable code structure with comprehensive unit test coverage
+- **🎨 Rich UI**: Beautiful WPF interfaces with animations, themes, and intuitive drag-and-drop controls
+
+## 🎲 Available Games
+
+### ♟️ Chess
 
 <div align="center">
-<img src="images/chess.png" width="100" height="100">
+<img src="assets/chess.png" width="100" height="100">
 <br />
 
 [![Framework][framework-shield]][framework-url]
 [![Version][chess-version-shield]][chess-version-url]
 
+**[📖 View Chess Documentation](src/Chess/README.md)**
+
 </div>
 
-Immerse yourself in the timeless strategy game of chess with this customizable WPF implementation! Explore various gameplay options such as adjusting the board size, setting different rule variations, and customizing piece designs. Whether you're a seasoned chess master or just starting your journey, this chess game offers a dynamic and engaging experience tailored to your preferences.
+A complete chess implementation featuring all standard rules including castling, en passant, and pawn promotion. Play against sophisticated AI opponents or challenge friends with both console and future WPF interfaces.
 
-### Connect 4
+**Features:**
+- Complete chess rule implementation
+- AI with Alpha-beta pruning algorithm  
+- Console interface with algebraic notation
+- Special moves: castling, en passant, promotion
+- Comprehensive unit test coverage
+
+### 🔴 Connect 4
 
 <div align="center">
-<img src="images/connect4.png" width="100" height="100">
+<img src="assets/connect4.png" width="100" height="100">
 <br />
 
 [![Framework][framework-shield]][framework-url]
 [![Version][connect4-version-shield]][connect4-version-url]
 
+**[📖 View Connect4 Documentation](src/Connect4/README.md)**
+
 </div>
 
-Experience the classic game of Connect 4 like never before with this WPF implementation! Customize your gaming experience by adjusting options such as the number of rows, columns, and game rules. Whether you prefer a traditional four-in-a-row challenge or a unique twist on the gameplay, this Connect Four game offers endless possibilities for fun and excitement.
+The classic Connect 4 game with both console and beautiful WPF interfaces. Customize board dimensions, winning conditions, and enjoy smooth gameplay with multiple AI difficulty levels.
 
-## Installation
+**Features:**
+- Console and WPF desktop applications
+- Customizable board sizes (4x4 to 12x10)
+- Configurable win conditions (3-6 in a row)
+- Drag-and-drop WPF interface with animations
+- Theme support and visual customization
 
-To play the games in this repository, simply download release or clone the repository to your local machine and run the desired game project using Visual Studio.
+## 🚀 Quick Start
 
-## License
+### Prerequisites
+
+- **.NET 10.0** or later
+- **Visual Studio 2022** or compatible IDE
+- **Windows OS** (for WPF applications)
+
+### Installation
+
+1. **Clone the repository:**
+```bash
+git clone https://github.com/sandre58/MyGames.git
+cd MyGames
+```
+
+2. **Build the solution:**
+```bash
+dotnet build
+```
+
+3. **Run a game:**
+
+**Chess Console:** 
+```bash
+dotnet run --project src/Chess/MyGames.Chess.Console
+```
+
+**Connect4 Console:**
+```bash
+dotnet run --project src/Connect4/MyGames.Connect4.Console
+```
+
+**Connect4 WPF:**
+```bash
+dotnet run --project src/Connect4/MyGames.Connect4.Wpf
+```
+
+## 🏗️ Project Structure
+
+```
+MyGames/
+├── src/
+│   ├── Chess/                     # Chess game implementation
+│   │   ├── MyGames.Chess/         # Core chess library
+│   │   ├── MyGames.Chess.Console/ # Console application
+│   │   └── README.md              # Chess documentation
+│   ├── Connect4/                  # Connect4 game implementation
+│   │   ├── MyGames.Connect4/      # Core Connect4 library  
+│   │   ├── MyGames.Connect4.Console/ # Console application
+│   │   ├── MyGames.Connect4.Wpf/  # WPF desktop application
+│   │   └── README.md              # Connect4 documentation
+│   └── Common/
+│       └── MyGames.Core/          # Shared game framework
+├── tests/                         # Unit tests for all projects
+├── assets/                        # Game icons and images
+└── build/                         # Build configuration files
+```
+
+## 🧪 Testing
+
+Run all tests across the solution:
+```bash
+dotnet test
+```
+
+Run tests for a specific game:
+```bash
+dotnet test tests/MyGames.Chess.UnitTests/
+dotnet test tests/MyGames.Connect4.UnitTests/
+```
+
+## 🎮 Game Features Comparison
+
+| Feature | Chess | Connect4 |
+|---------|-------|----------|
+| Console Interface | ✅ | ✅ |
+| WPF Desktop App | 🔄 (Planned) | ✅ |
+| AI Opponents | ✅ | ✅ |
+| Customizable Rules | ✅ | ✅ |
+| Board Customization | ❌ | ✅ |
+| Themes/Visual Options | ❌ | ✅ |
+| Drag & Drop UI | ❌ | ✅ |
+
+## 🤖 AI Implementation
+
+Both games feature sophisticated AI opponents powered by:
+
+- **Alpha-Beta Pruning**: Efficient minimax algorithm implementation
+- **Position Evaluation**: Strategic position assessment functions  
+- **Configurable Difficulty**: Adjustable search depth from beginner to expert
+- **Move Ordering**: Optimization techniques for better performance
+
+## 🛠️ Development
+
+### Building from Source
+
+1. **Prerequisites**: Ensure you have .NET 10.0 SDK installed
+2. **Clone**: `git clone https://github.com/sandre58/MyGames.git`
+3. **Build**: `dotnet build` in the root directory
+4. **Test**: `dotnet test` to run all unit tests
+
+### Contributing
+
+Contributions are welcome! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details on:
+
+- Code style and standards
+- Adding new games or features
+- Improving AI algorithms
+- UI/UX enhancements
+- Testing requirements
+
+### Architecture
+
+The project follows a clean architecture pattern:
+
+- **Core Libraries**: Game logic and rules (platform-independent)
+- **Console Applications**: Lightweight interfaces for quick gameplay
+- **WPF Applications**: Rich desktop experiences with themes and animations
+- **Shared Framework**: Common game abstractions and utilities
+
+## 🗺️ Roadmap
+
+### Near Term
+- [ ] Chess WPF application with rich UI
+- [ ] Online multiplayer support
+- [ ] Game replay and analysis features
+- [ ] Additional AI difficulty levels
+
+### Future
+- [ ] Mobile applications (MAUI)
+- [ ] Additional classic games (Checkers, Reversi)
+- [ ] Tournament and rating systems
+- [ ] Advanced AI with machine learning
+
+## 📊 Statistics
+
+- **Languages**: C#, XAML
+- **Framework**: .NET 10
+- **Architecture**: Clean Architecture with MVVM (WPF)
+- **Testing**: Unit tests with high coverage
+- **Games**: 2 implemented, more planned
+
+## 🤝 Contributing
+
+We welcome contributions of all kinds:
+
+- 🐛 **Bug Reports**: Found an issue? Let us know!
+- 💡 **Feature Ideas**: Have suggestions for improvements?
+- 🔧 **Code Contributions**: Submit pull requests for fixes or features
+- 📝 **Documentation**: Help improve our documentation
+- 🎨 **UI/UX**: Design improvements and theme contributions
+
+## 📄 License
 
 Copyright © Stéphane ANDRE.
 
-My Games is provided as-is under the MIT license. For more information see [LICENSE](./LICENSE).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Classic game rules and mechanics
+- Algorithm implementations for AI opponents
+- .NET community for frameworks and tools
+- Contributors and testers
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -86,9 +276,9 @@ My Games is provided as-is under the MIT license. For more information see [LICE
 [build-url]: https://github.com/sandre58/MyGames/actions
 [downloads-shield]: https://img.shields.io/github/downloads/sandre58/MyGames/total?style=for-the-badge
 [downloads-url]: https://github.com/sandre58/MyGames/releases
-[framework-shield]: https://img.shields.io/badge/.NET-8.0-purple
-[framework-url]: https://github.com/sandre58/MyGames/tree/main/src/MyNet.IconCreator.Wpf
-[connect4-version-shield]: https://img.shields.io/badge/version-1.1.0-blue
+[framework-shield]: https://img.shields.io/badge/.NET-10.0-purple
+[framework-url]: https://dotnet.microsoft.com/download/dotnet/10.0
+[connect4-version-shield]: https://img.shields.io/badge/version-1.0.0-blue
 [connect4-version-url]: https://github.com/sandre58/MyGames/releases
-[chess-version-shield]: https://img.shields.io/badge/version-1.1.0-blue
+[chess-version-shield]: https://img.shields.io/badge/version-1.0.0-blue
 [chess-version-url]: https://github.com/sandre58/MyGames/releases

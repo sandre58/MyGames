@@ -1,9 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <PackageReference Include="MyNet.Utilities" Version="5.2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <InternalsVisibleTo Include="$(AssemblyName).UnitTests" />
-  </ItemGroup>
-</Project>

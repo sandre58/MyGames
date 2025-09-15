@@ -1,17 +1,19 @@
-﻿// Copyright (c) Stéphane ANDRE. All Right Reserved.
-// See the LICENSE file in the project root for more information.
+﻿// -----------------------------------------------------------------------
+// <copyright file="HumanPlayer.cs" company="Stéphane ANDRE">
+// Copyright (c) Stéphane ANDRE. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 
 using System.Linq;
 using Spectre.Console;
 
-namespace MyGames.Connect4.Console.Players
+namespace MyGames.Connect4.Console.Players;
+
+internal sealed class HumanPlayer(string name) : ConsolePlayer(name)
 {
-    internal class HumanPlayer(string name) : ConsolePlayer(name)
+    public override Connect4Move NextMove(Connect4Game game)
     {
-        public override Connect4Move NextMove(Connect4Game game)
-        {
-            var column = AnsiConsole.Prompt(new TextPrompt<int>($"[bold {Color}]{DisplayName}[/] : Choose a column to play ").AddChoices(game.Board.GetValidColumns().Select(x => x.Index + 1)));
-            return new(column - 1);
-        }
+        var column = AnsiConsole.Prompt(new TextPrompt<int>($"[bold {Color}]{DisplayName}[/] : Choose a column to play ").AddChoices(game.Board.GetValidColumns().Select(x => x.Index + 1)));
+        return new(column - 1);
     }
 }

@@ -1,5 +1,8 @@
-﻿// Copyright (c) Stéphane ANDRE. All Right Reserved.
-// See the LICENSE file in the project root for more information.
+﻿// -----------------------------------------------------------------------
+// <copyright file="Program.cs" company="Stéphane ANDRE">
+// Copyright (c) Stéphane ANDRE. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 
 using System;
 using System.Collections.Generic;
@@ -31,7 +34,7 @@ writeGameSummary(game);
 writeGameTable(game);
 while (!game.IsOver)
 {
-    var player = (ConsolePlayer)game.GetCurrentPlayer();
+    var player = (ConsolePlayer)game.CurrentPlayer;
     IChessMove move = null!;
 
     var isCheck = game.IsCheck(player);
@@ -41,7 +44,7 @@ while (!game.IsOver)
     switch (player)
     {
         case RandomPlayer:
-            AnsiConsole.Status().Start($"[bold {player.Color}] {player.DisplayName} thinking...[/]", ctx => Thread.Sleep(1000));
+            AnsiConsole.Status().Start($"[bold {player.Color}] {player.DisplayName} thinking...[/]", _ => Thread.Sleep(1000));
             move = player.NextMove(game);
             break;
         case AIPlayer:
@@ -74,14 +77,15 @@ while (!game.IsOver)
             AnsiConsole.Clear();
             writeGameSummary(game);
         }
+
         writeGameTable(game);
     }
     else
     {
         if (isCheck)
-            AnsiConsole.MarkupLine($"[bold red]Invalid move. Protect your king with a valid move.[/]");
+            AnsiConsole.MarkupLine("[bold red]Invalid move. Protect your king with a valid move.[/]");
         else
-            AnsiConsole.MarkupLine($"[bold red]Invalid move. Try again.[/]");
+            AnsiConsole.MarkupLine("[bold red]Invalid move. Try again.[/]");
     }
 }
 
@@ -95,7 +99,7 @@ else
 
 ChessGame createGame()
 {
-    var gameType = AnsiConsole.Prompt(new SelectionPrompt<string>().Title($"Choose game").AddChoices("Human vs Human", "Human vs Random", "Human vs AI", "Random vs Human", "Random vs Random", "Random vs AI", "AI vs Human", "AI vs Random", "AI vs AI", "Custom"));
+    var gameType = AnsiConsole.Prompt(new SelectionPrompt<string>().Title("Choose game").AddChoices("Human vs Human", "Human vs Random", "Human vs AI", "Random vs Human", "Random vs Random", "Random vs AI", "AI vs Human", "AI vs Random", "AI vs AI", "Custom"));
 
     ConsolePlayer whitePlayer, blackPlayer;
 

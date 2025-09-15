@@ -1,68 +1,197 @@
-# Copyright (c) Stéphane ANDRE.
-# Licensed under the MIT license.
-
-# This continuous integration pipeline is triggered anytime a user pushes code to main branch.
-# This pipeline builds the solution and runs unit tests
-
-name: Build
+name: CI - Build and Tests
 
 on:
   push:
-      branches:
-        - main
-      paths:
-        - .github/workflows/ci.yml
-        - 'src/**'
-  workflow_dispatch:
+    branches:
+      - main
+      - 'feature/**'
+
+permissions:
+  contents: read       # Required to checkout code
+  pages: write         # Required to publish to GitHub Pages
+  id-token: write      # Required for OIDC authentication
+  checks: write        # Required to publish test results
+  pull-requests: write # Required to comment on PRs
+  actions: read        # Required to read workflow runs
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
 
 jobs:
+  discover-projects:
+    runs-on: ubuntu-latest
+    outputs:
+      projects: ${{ steps.set-projects.outputs.projects }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-  # Build
-  build:
+      - name: Discover Projects
+        id: set-projects
+        run: |
+          project_info=$(find src -name "*.csproj" | while read path; do
+            module=$(basename "$(dirname "$(dirname "$path")")")
+            project=$(basename "$path" .csproj)
+            echo "{\"module\": \"$module\", \"project\": \"$project\"}"
+          done | jq -c -s .)
+          echo $project_info
+          echo "projects=$project_info" >> $GITHUB_OUTPUT
+
+  release:
+    needs: discover-projects
     runs-on: windows-latest
-    name: Build all projects
-    env:
-      DOTNET_SYSTEM_CONSOLE_ALLOW_ANSI_COLOR_REDIRECTION: true
-      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-      DOTNET_NOLOGO: true
-      DOTNET_CLI_TELEMETRY_OPTOUT: true
+    strategy:
+      matrix:
+        include: ${{ fromJson(needs.discover-projects.outputs.projects) }}
 
     steps:
+      - name: Validate matrix inputs
+        run: |
+          if (-not "${{ matrix.module }}" -or -not "${{ matrix.project }}") {
+            throw "Invalid matrix configuration"
+          }
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup .NET 8.0.201
-        uses: actions/setup-dotnet@v3
+      - name: Install Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.201
+          dotnet-version: |
+            10.0.x
+            9.0.x
+            8.0.x
 
-      - name: Add NuGet Feed
-        shell: pwsh
+      - name: Install workloads
+        if: contains(matrix.project, 'Browser') || contains(matrix.project, 'Android')
         run: |
-          $userName = "${{ vars.PRIVATE_NUGET_API_USERNAME }}"
-          $token = "${{ secrets.PRIVATE_NUGET_API_KEY }}"
-          if ($userName -eq '' || $token -eq '') {
-            dotnet nuget add source ${{ vars.PRIVATE_NUGET_API_SOURCE }} -n NuGetFeed
+          dotnet workload install wasm-tools
+          dotnet workload install android
+          dotnet workload restore
+
+      - name: Install Node + semantic-release
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - run: npm install -g semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/changelog @semantic-release/git @semantic-release/github @semantic-release/exec
+
+      - name: Get commits for project
+        id: commits
+        run: |
+          $last_tag = git describe --tags --match "${{ matrix.project }}-v*" --abbrev=0 --first-parent 2>$null
+          if (-not $last_tag) {
+            $range = ""
           } else {
-            dotnet nuget add source ${{ vars.PRIVATE_NUGET_API_SOURCE }} -u $userName -p $token -n NuGetFeed
+            $range = "$last_tag..HEAD"
+          }
+          git log $range --pretty=format:"%s" -- ${{ matrix.project }} > commits.txt
+          if (!(Get-Content commits.txt | Where-Object { $_.Trim() })) {
+            echo "NO_COMMITS=true" >> $env:GITHUB_OUTPUT
           }
 
-      - name: NuGet Restore
-        run: dotnet restore .\src\MyGames.sln
+      - name: Calculate new version
+        id: version
+        if: steps.commits.outputs.NO_COMMITS != 'true'
+        run: |
+          npx semantic-release `
+          --branches main `
+          --tag-format "${{ matrix.project }}-v`$`{version}" `
+          --ci false `
+          --dry-run > output.log
 
-      - name: Build Packages
-        run: dotnet build .\src\MyGames.sln -c Release
+          $versionLine = Select-String "next release version is" output.log | Select-Object -Last 1
+          if ($versionLine) {
+            $version = $versionLine.Line.Split()[-1]
+          } else {
+            Write-Host "No semantic version found, using fallback"
+            $version = "0.1.0"
+          }
+          echo "VERSION=$version" >> $env:GITHUB_OUTPUT
 
-      - name: Run Tests
-        run: dotnet test .\src\MyGames.sln --configuration Release --logger GitHubActions --no-build --no-restore --blame-crash --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover --no-build
+      - name: Update NBGV version
+        if: steps.version.outputs.VERSION != ''
+        run: |
+          dotnet tool install --global nbgv
+          $versionJsonPath = "./src/${{ matrix.module }}/${{ matrix.project }}/version.json"
+          if (Test-Path $versionJsonPath) {
+            nbgv set-version ${{ steps.version.outputs.VERSION }} --version-json $versionJsonPath
+          } else {
+            Write-Host "Creating version.json at $versionJsonPath"
+            New-Item -Path (Split-Path $versionJsonPath) -ItemType Directory -Force
+            @{ version = "${{ steps.version.outputs.VERSION }}" } | ConvertTo-Json | Out-File $versionJsonPath -Encoding UTF8
+          }
 
-      - name: Upload Connect4 application
-        uses: actions/upload-artifact@v3
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
         with:
-          name: Connect4
-          path: |
-              ./build/Connect4/Release/**
-              !./build/Connect4/Release/*.xml
-              !./build/Connect4/Release/*.pdb
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Restore dependencies
+        run: |
+          dotnet restore "src/${{ matrix.module }}/${{ matrix.project }}/${{ matrix.project }}.csproj"
+
+      - name: Build
+        run: |
+          dotnet build "src/${{ matrix.module }}/${{ matrix.project }}/${{ matrix.project }}.csproj" --configuration Release --no-restore
+
+      - name: Run tests with coverage
+        run: |
+          $test_project_path = "tests/${{ matrix.project }}.UnitTests/${{ matrix.project }}.UnitTests.csproj"
+          if (-not (Test-Path $test_project_path)) {
+            Write-Host "No test project found at $test_project_path, skipping tests."
+            exit 0
+          }
+
+          # Run tests with coverage collection using Directory.Build.targets configuration
+          dotnet test $test_project_path --configuration Release `
+            --collect:"XPlat Code Coverage" `
+            --settings .runsettings `
+            --logger GitHubActions `
+            --logger "trx" `
+            --results-directory ./TestResults
+
+          Write-Host "📋 Test results generated:"
+          Get-ChildItem -Path "./TestResults" -Filter "*.trx" -Recurse | Select-Object -First 10 | ForEach-Object { Write-Host $_.FullName }
+          Write-Host "📋 Coverage files from Directory.Build.targets:"
+          $coverageFiles = Get-ChildItem -Path "./TestResults" -Filter "*.cobertura.xml" -Recurse -ErrorAction SilentlyContinue | Select-Object -First 10
+          if ($coverageFiles) {
+            $coverageFiles | ForEach-Object { Write-Host $_.FullName }
+          } else {
+            Write-Host "No coverage files found yet"
+          }
+
+      - name: Generate coverage report
+        uses: danielpalme/ReportGenerator-GitHub-Action@v5
+        with:
+          reports: 'TestResults/**/*.cobertura.xml'
+          targetdir: 'coveragereport'
+          reporttypes: 'HtmlInline_AzurePipelines;Cobertura;MarkdownSummaryGithub'
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: TestResults/**/*.cobertura.xml
+          fail_ci_if_error: false
+          verbose: true
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          files: TestResults/**/*.trx
+          check_name: 'Test Results'
+          comment_mode: changes
+          fail_on: 'test failures'
+
+      - name: Upload Coverage Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report-linux
+          path: coveragereport

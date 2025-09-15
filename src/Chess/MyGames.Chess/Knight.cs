@@ -1,20 +1,23 @@
-﻿// Copyright (c) Stéphane ANDRE. All Right Reserved.
-// See the LICENSE file in the project root for more information.
+﻿// -----------------------------------------------------------------------
+// <copyright file="Knight.cs" company="Stéphane ANDRE">
+// Copyright (c) Stéphane ANDRE. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 
-using MyGames.Chess.Extensions;
-using MyGames.Domain;
 using System.Collections.Generic;
+using MyGames.Chess.Extensions;
+using MyGames.Core;
 
-namespace MyGames.Chess
+namespace MyGames.Chess;
+
+public sealed class Knight(ChessColor color) : ChessPiece(color)
 {
-    public class Knight : ChessPiece
-    {
-        public Knight(ChessColor color) : base(color) { }
+    protected override string GetNotation() => "♞";
 
-        protected override string GetNotation() => "♞";
-
-        protected override IEnumerable<BoardCoordinates> GetPossibleMoves(ChessBoard board, BoardCoordinates from)
-            => board.GetAllPossibleMoves(from, Color,
+    protected override IEnumerable<BoardCoordinates> GetPossibleMoves(ChessBoard board, BoardCoordinates from)
+        => board.GetAllPossibleMoves(
+            from,
+            Color,
             [
                 new BoardDirectionOffset(new BoardDirection(-2, -1), 1), // Up Left
                 new BoardDirectionOffset(new BoardDirection(-2, 1), 1), // Up Right
@@ -25,5 +28,4 @@ namespace MyGames.Chess
                 new BoardDirectionOffset(new BoardDirection(-1, 2), 1), // Right Up
                 new BoardDirectionOffset(new BoardDirection(1, 2), 1), // Right Down
             ]);
-    }
 }

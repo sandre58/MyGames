@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Connect4\MyGames.Connect4\MyGames.Connect4.csproj" />
+  </ItemGroup>
+
+</Project>

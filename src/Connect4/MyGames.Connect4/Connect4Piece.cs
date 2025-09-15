@@ -1,20 +1,19 @@
-﻿// Copyright (c) Stéphane ANDRE. All Right Reserved.
-// See the LICENSE file in the project root for more information.
+﻿// -----------------------------------------------------------------------
+// <copyright file="Connect4Piece.cs" company="Stéphane ANDRE">
+// Copyright (c) Stéphane ANDRE. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 
-using System.Diagnostics.CodeAnalysis;
-using MyGames.Domain;
+using System.Globalization;
+using MyGames.Core;
 
-namespace MyGames.Connect4
+namespace MyGames.Connect4;
+
+public class Connect4Piece(IConnect4Player player) : IPiece
 {
-    public class Connect4Piece : IPiece
-    {
-        public Connect4Piece(IConnect4Player player) => Player = player;
+    public IConnect4Player Player { get; } = player;
 
-        public IConnect4Player Player { get; }
+    public bool IsSimilar(IPiece? obj) => obj is Connect4Piece piece && Player == piece.Player;
 
-        public bool IsSimilar(IPiece? obj) => obj is Connect4Piece piece && Player == piece.Player;
-
-        [ExcludeFromCodeCoverage]
-        public override string ToString() => string.Format("{0,1}", Player.ToString());
-    }
+    public override string ToString() => string.Format(CultureInfo.InvariantCulture, "{0,1}", Player.ToString());
 }
