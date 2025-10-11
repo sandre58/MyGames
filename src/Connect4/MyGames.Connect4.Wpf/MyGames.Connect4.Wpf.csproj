@@ -9,7 +9,7 @@
             Get ready to connect four and win!
         </Description>
         <OutputType>WinExe</OutputType>
-        <TargetFramework>net10.0-windows</TargetFramework>
+        <TargetFrameworks>net10.0-windows</TargetFrameworks>
         <UseWPF>true</UseWPF>
         <AssemblyName>Connect'4</AssemblyName>
         <ExtrasEnableWpfProjectSetup>true</ExtrasEnableWpfProjectSetup>
