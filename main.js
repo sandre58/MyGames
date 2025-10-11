@@ -370,30 +370,6 @@ var riskHotspots = [
       { "value": 16, "exceeded": false },
       { "value": 16, "exceeded": true },
     ]},
-  {
-    "assembly": "MyGames.Core", "class": "MyGames.Core.Extensions.BoardExtensions", "reportPath": "MyGames.Core_BoardExtensions.html", "methodName": "GetSquaresBetween<TPiece>(MyGames.Core.Board<TPiece>, MyGames.Core.BoardCoordinates, MyGames.Core.BoardCoordinates, bool, bool)", "methodShortName": "GetSquaresBetween<TPiece>(...)", "fileIndex": 0, "line": 41,
-    "metrics": [
-      { "value": 16, "exceeded": false },
-      { "value": 16, "exceeded": true },
-    ]},
-  {
-    "assembly": "MyGames.Core", "class": "MyGames.Core.Extensions.BoardExtensions<TPiece>", "reportPath": "MyGames.Core_BoardExtensions_TPiece_.html", "methodName": "GetSquaresBetween<TPiece>(MyGames.Core.Board<TPiece>, MyGames.Core.BoardCoordinates, MyGames.Core.BoardCoordinates, bool, bool)", "methodShortName": "GetSquaresBetween<TPiece>(...)", "fileIndex": 0, "line": 41,
-    "metrics": [
-      { "value": 16, "exceeded": false },
-      { "value": 16, "exceeded": true },
-    ]},
-  {
-    "assembly": "MyGames.Core", "class": "MyGames.Core.Extensions.SquaresExtensions", "reportPath": "MyGames.Core_SquaresExtensions.html", "methodName": "GetNotEmptyConsecutives<TPiece>(MyGames.Core.SquaresCollection<TPiece>, System.Func<TPiece, TPiece, bool>)", "methodShortName": "GetNotEmptyConsecutives<TPiece>(...)", "fileIndex": 0, "line": 27,
-    "metrics": [
-      { "value": 16, "exceeded": false },
-      { "value": 16, "exceeded": true },
-    ]},
-  {
-    "assembly": "MyGames.Core", "class": "MyGames.Core.Extensions.SquaresExtensions<TPiece>", "reportPath": "MyGames.Core_SquaresExtensions_TPiece_.html", "methodName": "GetNotEmptyConsecutives<TPiece>(MyGames.Core.SquaresCollection<TPiece>, System.Func<TPiece, TPiece, bool>)", "methodShortName": "GetNotEmptyConsecutives<TPiece>(...)", "fileIndex": 0, "line": 27,
-    "metrics": [
-      { "value": 16, "exceeded": false },
-      { "value": 16, "exceeded": true },
-    ]},
 ];
 
 var branchCoverageAvailable = true;
