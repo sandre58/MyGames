@@ -13,27 +13,37 @@
     <PropertyGroup>
         <IsTestProject>$(MSBuildProjectName.EndsWith('Tests'))</IsTestProject>
         <IsConsoleProject>$(MSBuildProjectName.Contains('.Console'))</IsConsoleProject>
-        <IsWpfProject>$(MSBuildProjectName.Contains('.Wpf'))</IsWpfProject>
-        <IsAvaloniaProject>$(MSBuildProjectName.Contains('.Avalonia'))</IsAvaloniaProject>
-        <IsUiProject Condition="'$(IsWpfProject)' == 'True' Or '$(IsAvaloniaProject)' == 'True'">True</IsUiProject>
-        <IsUiProject Condition="'$(IsWpfProject)' != 'True' And '$(IsAvaloniaProject)' != 'True'">False</IsUiProject>
     </PropertyGroup>
 
     <!-- Configuration -->
     <PropertyGroup>
-        <TargetFrameworks Condition="'$(IsConsoleProject)' != 'True' And '$(IsUiProject)' != 'True'">net8.0;net9.0;net10.0</TargetFrameworks>
+        <TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>
         <LangVersion>preview</LangVersion>
         <NeutralLanguage>fr</NeutralLanguage>
         <Nullable Condition="'$(Nullable)' == ''">enable</Nullable>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
         <!-- Output builds -->
-        <AppendTargetFrameworkToOutputPath Condition="'$(IsConsoleProject)' != 'True' And '$(IsUiProject)' != 'True'">true</AppendTargetFrameworkToOutputPath>
-        <AppendTargetFrameworkToOutputPath Condition="'$(IsConsoleProject)' == 'True' Or '$(IsUiProject)' == 'True'">false</AppendTargetFrameworkToOutputPath>
+        <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
     </PropertyGroup>
 
+    <!-- Configuration for test projects - use .runsettings for coverage -->
+    <PropertyGroup Condition="'$(IsTestProject)' == 'True'">
+        <!-- Path to the .runsettings file -->
+        <RunSettingsFile>$(MSBuildThisFileDirectory).runsettings</RunSettingsFile>
+
+        <!-- Force VSTest to use our runsettings -->
+        <VSTestSetting>$(RunSettingsFile)</VSTestSetting>
+        <VSTestCLIRunSettings>$(RunSettingsFile)</VSTestCLIRunSettings>
+    </PropertyGroup>
+
+    <!-- Include runsettings file in test projects -->
+    <ItemGroup Condition="'$(IsTestProject)' == 'True' And Exists('$(RunSettingsFile)')">
+        <None Include="$(RunSettingsFile)" Link=".runsettings" Visible="false" />
+    </ItemGroup>
+    
     <!-- Imports -->
     <Import Project="$(MSBuildThisFileDirectory)/build/code-analysis.props" Condition="Exists('$(MSBuildThisFileDirectory)/build/code-analysis.props')" />
     <Import Project="$(MSBuildThisFileDirectory)/build/dependencies.props" Condition="Exists('$(MSBuildThisFileDirectory)/build/dependencies.props')" />
-
+    <Import Project="$(MSBuildThisFileDirectory)/build/package.props" Condition="Exists('$(MSBuildThisFileDirectory)/build/package.props') and '$(IsPackable)' == 'true'" />
 </Project>

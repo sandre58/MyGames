@@ -36,112 +36,112 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js (for semantic-release)
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install semantic-release
-        run: npm install -g semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator
-
-      - name: Discover projects and calculate versions
-        id: set-projects
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Compute dependencies graph
+        id: compute-dependencies
         run: |
+
+          # Dynamically build the dependency map
+          declare -A DEPENDENCIES
+
+          for csproj in $(find src/* -name "*.csproj"); do
+            PROJECT_NAME=$(basename "$csproj" .csproj)
+
+            # Retrieve all project references
+            REFS=$(grep -oP '<ProjectReference Include="\K[^"]+' "$csproj" | sed 's|.*/\([^/]*\)\.csproj|\1|')
+
+            if [ -n "$REFS" ]; then
+              DEPENDENCIES["$PROJECT_NAME"]="$REFS"
+            fi
+          done
+
+          echo "Dependencies discovered:"
+          for PROJ in "${!DEPENDENCIES[@]}"; do
+            echo " - $PROJ depends on ${DEPENDENCIES[$PROJ]}"
+          done
+
+          echo "dependencies=$DEPENDENCIES" >> $GITHUB_OUTPUT
+
+      - name: Discover projects
+        id: set-projects
+        run: |
+
           PROJECT_INPUT="${{ inputs.project }}"
-          VERSION_INPUT="${{ inputs.version }}"
-          
-          echo "Project input: '$PROJECT_INPUT'"
-          echo "Version input: '$VERSION_INPUT'"
-          
-          # Function to calculate semantic version for a project (only commits touching the project folder)
-          calculate_semantic_version() {
-            local PROJECT=$1
-            echo "Calculating semantic version for $PROJECT..."
 
-            # Configure git
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-            # Create a temporary branch with only commits touching the project folder
-            TMP_BRANCH="tmp-semrel-$PROJECT-$$"
-            git checkout -b "$TMP_BRANCH"
-            # Reset to main and cherry-pick only relevant commits
-            git reset --hard origin/main
-            COMMITS=$(git log --pretty=format:"%H" -- "src/$PROJECT")
-            git checkout --orphan "$TMP_BRANCH-orphan" origin/main
-            git rm -rf .
-            git commit --allow-empty -m "Start orphan branch for semantic-release $PROJECT"
-            for commit in $COMMITS; do
-              git cherry-pick $commit || true
-            done
-            git checkout "$TMP_BRANCH-orphan"
-            
-            # Use semantic-release in dry-run mode to get next version
-            npx semantic-release \
-              --branches "$TMP_BRANCH-orphan" \
-              --tag-format "$PROJECT-v\${version}" \
-              --ci false \
-              --dry-run > /tmp/semantic_output_$PROJECT.log 2>&1
-            
-            # Extract version from output
-            VERSION=$(grep -E "next release version is|Published release" /tmp/semantic_output_$PROJECT.log | tail -1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' || echo "")
-            
-            # Cleanup
-            git checkout main
-            git branch -D "$TMP_BRANCH" "$TMP_BRANCH-orphan"
-            
-            if [ -n "$VERSION" ]; then
-              echo "Calculated version for $PROJECT: $VERSION"
-              echo "$VERSION"
-            else
-              echo "No new version calculated for $PROJECT (no significant commits or already up to date)"
-              echo ""
-            fi
-          }
-
+          # List of projects to check
           if [ -n "$PROJECT_INPUT" ] && [ "$PROJECT_INPUT" != "All" ]; then
-            echo "Single project mode: $PROJECT_INPUT"
-            
-            # Determine the version for this project
-            if [ -n "$VERSION_INPUT" ]; then
-              PROJECT_VERSION="$VERSION_INPUT"
-              echo "Using explicit version: $PROJECT_VERSION"
-            else
-              PROJECT_VERSION=$(calculate_semantic_version "$PROJECT_INPUT")
-            fi
-       
-            if [ -n "$PROJECT_VERSION" ]; then
-              PROJECTS_TO_TAG="${PROJECTS_TO_TAG}{\"project\":\"$PROJECT_INPUT\",\"version\":\"$PROJECT_VERSION\"},"
-            else
-              echo "No version to tag for $PROJECT_INPUT, skipping..."
-            fi
+            PROJECT_LIST=( "$PROJECT_INPUT" )
           else
-            echo "Multi-project mode: analyzing all projects..."
-            
-            # Find all projects (directories in src/*/)
+            PROJECT_LIST=()
             for project_dir in src/*/*/; do
               if [ -d "$project_dir" ]; then
-                PROJECT_NAME=$(basename "$project_dir")
-                echo "Analyzing project: $PROJECT_NAME"
-                
-                PROJECT_VERSION=$(calculate_semantic_version "$PROJECT_NAME")
-                
-                if [ -n "$PROJECT_VERSION" ]; then
-                  echo "Will tag $PROJECT_NAME with version $PROJECT_VERSION"
-                  PROJECTS_TO_TAG="${PROJECTS_TO_TAG}{\"project\":\"$PROJECT_NAME\",\"version\":\"$PROJECT_VERSION\"},"
-                else
-                  echo "No changes in $PROJECT_NAME, skipping..."
-                fi
+                PROJECT_LIST+=( "$(basename "$project_dir")" )
               fi
             done
           fi
 
-          # Finalize JSON
-          PROJECTS_TO_TAG=["${PROJECTS_TO_TAG%,}]"
-          
-          echo "Final matrix: $PROJECTS_TO_TAG"
+          CHANGED=()
+
+          # Check for conventional commits since the last tag
+          for PROJECT_NAME in "${PROJECT_LIST[@]}"; do
+            for project_dir in src/*/$PROJECT_NAME/; do
+              if [ -d "$project_dir" ]; then
+                LAST_TAG=$(git tag --list "$PROJECT_NAME-v*" --sort=-v:refname | head -n 1)
+                if [ -n "$LAST_TAG" ]; then
+                  RANGE="$LAST_TAG..HEAD"
+                else
+                  RANGE="HEAD"
+                fi
+
+                COMMIT_COUNT=$(git log $RANGE --pretty=format:"%H" \
+                  -- "$project_dir" \
+                  --grep="^feat:" \
+                  --grep="^fix:" \
+                  --grep="^chore:" \
+                  --grep="^docs:" \
+                  --grep="^refactor:" \
+                  --grep="^perf:" \
+                  --grep="^test:" | wc -l)
+
+                if [ "$COMMIT_COUNT" -gt 0 ]; then
+                  echo "Project $PROJECT_NAME has Conventional Commits → will be tagged."
+                  PROJECTS_TO_TAG="${PROJECTS_TO_TAG}{\"project\":\"$PROJECT_NAME\"},"
+                else
+                  echo "No Conventional Commits in $PROJECT_NAME → skipping."
+                fi
+              fi
+            done
+          done
+
+          # Propagate to dependents
+          IMPACTED=( "${CHANGED[@]}" )
+
+          function add_dependents() {
+            local PROJ="$1"
+            for CANDIDATE in "${!DEPENDENCIES[@]}"; do
+              for DEP in ${DEPENDENCIES[$CANDIDATE]}; do
+                if [ "$DEP" == "$PROJ" ]; then
+                  if [[ ! " ${IMPACTED[*]} " =~ " ${CANDIDATE} " ]]; then
+                    echo "$CANDIDATE depends on $DEP → mark as changed"
+                    IMPACTED+=( "$CANDIDATE" )
+                    add_dependents "$CANDIDATE"
+                  fi
+                fi
+              done
+            done
+          }
+
+          for PROJ in "${CHANGED[@]}"; do
+            add_dependents "$PROJ"
+          done
+
+          # Générer JSON pour la matrice
+          PROJECTS_TO_TAG="["
+          for PROJ in "${IMPACTED[@]}"; do
+            PROJECTS_TO_TAG="${PROJECTS_TO_TAG}{\"project\":\"$PROJ\"},"
+          done
+          PROJECTS_TO_TAG="[${PROJECTS_TO_TAG%,}]"
+
+          echo "Final matrix => $PROJECTS_TO_TAG"
           echo "matrix=$PROJECTS_TO_TAG" >> $GITHUB_OUTPUT
 
   tag-project:
@@ -152,21 +152,33 @@ jobs:
       matrix:
         include: ${{ fromJson(needs.discover-projects.outputs.matrix) }}
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Display project info
+      - name: Setup Node.js (for semantic-release)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install semantic-release
+        run: npm install -g semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator
+
+      - name: Calculate version with semantic-release
+        id: calc-version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Project to tag: ${{ matrix.project }}"
-          echo "Version to tag: ${{ matrix.version }}"
+          PROJECT="${{ matrix.project }}"
+          echo "Calculating version for $PROJECT..."
+          cd "src/*/$PROJECT/"
+          VERSION=$(semantic-release --dry-run | grep -oP 'next release version is \K[0-9]+\.[0-9]+\.[0-9]+')
+          echo "Calculated version: $VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Create and push tag
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           PROJECT="${{ matrix.project }}"
-          VERSION="${{ matrix.version }}"
+          VERSION="${{ steps.calc-version.outputs.version }}"
           DRY_RUN="${{ inputs.dry_run }}"
           
           echo "Creating tag $PROJECT-v$VERSION"
